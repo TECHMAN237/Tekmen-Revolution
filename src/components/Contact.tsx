@@ -30,12 +30,12 @@ const contactCards = [
 
 export function Contact() {
   return (
-    <section id="contact" className="relative py-24 sm:py-36 overflow-hidden">
-      {/* High-Visibility Section Background Decor */}
+    <section id="contact" className="relative py-24 sm:py-36 overflow-hidden" style={{ contain: 'layout style' }}>
+      {/* High-Visibility Section Background Decor — optimized blur for scroll perf */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.15)_0%,transparent_70%)] opacity-60" />
-        <div className="absolute -top-[5%] right-[-5%] w-[550px] h-[550px] bg-cyan-500/30 blur-[90px] rounded-full opacity-70" />
-        <div className="absolute bottom-[-5%] left-[-5%] w-[500px] h-[500px] bg-purple-600/30 blur-[90px] rounded-full opacity-60" />
+        <div className="absolute -top-[5%] right-[-5%] w-[550px] h-[550px] bg-cyan-500/30 blur-[60px] rounded-full opacity-70" />
+        <div className="absolute bottom-[-5%] left-[-5%] w-[500px] h-[500px] bg-purple-600/30 blur-[60px] rounded-full opacity-60" />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 relative z-10">
@@ -68,10 +68,10 @@ export function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-black/40 backdrop-blur-3xl p-8 sm:p-12 rounded-[3rem] border border-white/10 shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] relative overflow-hidden group"
+            className="bg-black/55 backdrop-blur-sm p-8 sm:p-12 rounded-[3rem] border border-white/10 shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] relative overflow-hidden group"
           >
             {/* Subtle light spot inside form */}
-            <div className="absolute -top-24 -left-24 w-48 h-48 bg-cyan-500/5 blur-[80px] rounded-full pointer-events-none" />
+            <div className="absolute -top-24 -left-24 w-48 h-48 bg-cyan-500/5 blur-[40px] rounded-full pointer-events-none" />
             
             <form className="space-y-7 relative z-10">
               <div className="space-y-2.5">
@@ -125,10 +125,10 @@ export function Contact() {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -8, backgroundColor: 'rgba(255,255,255,0.15)' }}
-                className="group relative flex flex-col items-center justify-center p-10 rounded-[2.5rem] bg-white/10 backdrop-blur-2xl border border-white/20 shadow-2xl transition-all duration-500 hover:border-white/40"
+                className="group relative flex flex-col items-center justify-center p-10 rounded-[2.5rem] bg-white/[0.12] backdrop-blur-sm border border-white/20 shadow-2xl transition-all duration-500 hover:border-white/40"
               >
                 {/* Spot behind icon */}
-                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 ${card.color} blur-3xl rounded-full`} />
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 ${card.color} blur-xl rounded-full`} />
                 
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${card.color} text-white shadow-[0_10px_30px_-5px_rgba(0,0,0,0.5)] group-hover:scale-110 group-hover:shadow-[0_15px_40px_-5px_rgba(0,0,0,0.6)] transition-all duration-500 relative z-10`}>
                   <card.icon className="w-7 h-7" />
@@ -145,7 +145,7 @@ export function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="sm:col-span-2 p-10 rounded-[2.5rem] bg-gradient-to-br from-black/60 to-black/20 backdrop-blur-3xl border border-white/10 flex flex-col sm:flex-row items-center justify-between group shadow-2xl hover:border-cyan-500/30 transition-colors duration-500"
+              className="sm:col-span-2 p-10 rounded-[2.5rem] bg-gradient-to-br from-black/65 to-black/30 backdrop-blur-sm border border-white/10 flex flex-col sm:flex-row items-center justify-between group shadow-2xl hover:border-cyan-500/30 transition-colors duration-500"
             >
               <div className="flex items-center gap-6 mb-6 sm:mb-0">
                 <div className="w-14 h-14 rounded-full bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-all duration-500">

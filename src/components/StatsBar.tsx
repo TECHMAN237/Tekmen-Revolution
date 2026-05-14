@@ -13,7 +13,7 @@ export function StatsBar() {
       {/* Immersive Section Background Decor */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.06)_0%,transparent_70%)]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-full bg-cyan-900/10 blur-[120px] rounded-full opacity-40" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-full bg-cyan-900/10 blur-[50px] rounded-full opacity-40" />
       </div>
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6 relative z-10">
@@ -23,7 +23,7 @@ export function StatsBar() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           whileHover={{ y: -5, transition: { duration: 0.3 } }}
-          className="bg-black/40 backdrop-blur-3xl rounded-[3rem] px-6 sm:px-12 py-6 sm:py-8 flex flex-col md:flex-row items-center gap-6 md:gap-4 border border-white/5 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] group transition-all duration-500 hover:border-cyan-500/20"
+          className="bg-black/55 backdrop-blur-sm rounded-[3rem] px-6 sm:px-12 py-6 sm:py-8 flex flex-col md:flex-row items-center gap-6 md:gap-4 border border-white/5 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] group transition-all duration-500 hover:border-cyan-500/20"
         >
           <div className="flex items-center divide-x divide-white/10 flex-1 w-full">
             {stats.map((s, idx) => (

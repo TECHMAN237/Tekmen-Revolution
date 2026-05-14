@@ -4,6 +4,7 @@ import { Hero } from "../components/Hero";
 import { About } from "../components/About";
 import { Services } from "../components/Services";
 import { StatsBar } from "../components/StatsBar";
+import { Testimonials } from "../components/Testimonials";
 import { SceneBackground } from "../components/SceneBackground";
 import { Contact } from "../components/Contact";
 import logoImg from "../../logo.png";
@@ -42,6 +43,7 @@ function Index() {
       <About />
       <Services />
       <StatsBar />
+      <Testimonials />
       <Contact />
       <footer className="py-16 text-center text-xs text-muted-foreground border-t border-white/5 relative z-10">
         <div className="flex flex-col items-center gap-6">

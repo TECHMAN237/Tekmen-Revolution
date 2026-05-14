@@ -87,28 +87,41 @@
 
 @layer base {
   * { border-color: var(--color-border); }
-  html, body { background: #050816; }
+  html {
+    scroll-behavior: smooth;
+    /* Prevent scroll event from blocking rendering */
+    overflow-anchor: auto;
+  }
+  html, body { background: var(--background); }
   body {
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    /* Force GPU compositing layer for smoother scroll */
+    transform: translateZ(0);
   }
   h1, h2, h3, h4, .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+
+  /* Sections below the fold: skip rendering until near viewport */
+  #about, #services, #contact {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 800px;
+  }
 }
 
 @layer utilities {
   .glass {
-    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
     border: 1px solid rgba(255,255,255,0.08);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
   .glass-strong {
-    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
     border: 1px solid rgba(255,255,255,0.12);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .text-gradient {
     background: var(--gradient-primary);
@@ -151,10 +164,10 @@
 
   .frost-card {
     background:
-      linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.02) 100%);
+      linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.03) 100%);
     border: 1px solid rgba(255,255,255,0.10);
-    backdrop-filter: blur(28px) saturate(140%);
-    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
     box-shadow:
       0 30px 60px -25px rgba(0,0,0,0.6),
       0 10px 30px -15px rgba(99,102,241,0.25),

@@ -1,6 +1,6 @@
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Palette, Clapperboard, Headphones, type LucideIcon } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 
 const services: { icon: LucideIcon; title: string; subtitle: string; description: string }[] = [
   { 
@@ -40,7 +40,7 @@ function ServiceCard({ s, i, isHovered, setHoveredIndex }: { s: any, i: number, 
       onMouseLeave={() => setHoveredIndex(null)}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.5, delay: i * 0.1 }}
       whileHover={{ y: -8 }}
       className={`group relative cursor-pointer rounded-[2.5rem] transition-all duration-300 ${
@@ -58,8 +58,8 @@ function ServiceCard({ s, i, isHovered, setHoveredIndex }: { s: any, i: number, 
       <div
         className={`relative h-full min-h-[260px] rounded-[2.5rem] p-7 sm:p-9 overflow-hidden transition-all duration-300 border flex flex-col ${
           isDark 
-            ? "bg-black/40 backdrop-blur-xl border-white/10 hover:border-cyan-400/30 shadow-none hover:shadow-neon-cyan/20"
-            : "bg-white/10 backdrop-blur-xl border-white/20 hover:border-blue-300/40 shadow-none hover:shadow-glow-soft"
+            ? "bg-black/50 backdrop-blur-sm border-white/10 hover:border-cyan-400/30 shadow-none hover:shadow-neon-cyan/20"
+            : "bg-white/[0.12] backdrop-blur-sm border-white/20 hover:border-blue-300/40 shadow-none hover:shadow-glow-soft"
         }`}
       >
         {/* Subtle Shine Effect */}
@@ -132,13 +132,13 @@ export function Services() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="services" className="relative py-24 sm:py-36 overflow-hidden">
-      {/* High-Visibility Section Background Decor */}
+    <section id="services" className="relative py-24 sm:py-36 overflow-hidden" style={{ contain: 'layout style' }}>
+      {/* High-Visibility Section Background Decor — optimized blur for scroll perf */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.18)_0%,transparent_70%)] opacity-60" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-600/30 blur-[90px] rounded-full opacity-70" />
-        <div className="absolute top-[10%] right-[-5%] w-[450px] h-[450px] bg-blue-600/20 blur-[80px] rounded-full opacity-60" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-600/30 blur-[60px] rounded-full opacity-70" />
+        <div className="absolute top-[10%] right-[-5%] w-[450px] h-[450px] bg-blue-600/20 blur-[50px] rounded-full opacity-60" />
         
         {/* Visible Section Grid */}
         <div className="absolute inset-0 opacity-[0.12] bg-[linear-gradient(to_right,#80808020_1px,transparent_1px),linear-gradient(to_bottom,#80808020_1px,transparent_1px)] bg-[size:50px_50px]" />
@@ -150,7 +150,7 @@ export function Services() {
           <motion.h2
             initial={{ opacity: 0, y: -40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="font-display font-semibold tracking-tight text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-8 leading-[1.1]"
           >
@@ -160,7 +160,7 @@ export function Services() {
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-sm sm:text-base md:text-lg text-muted-foreground/70 max-w-3xl mx-auto font-light leading-relaxed"
           >

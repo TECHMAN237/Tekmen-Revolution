@@ -1,23 +1,50 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import dashboardImg from "../../dashboard.png";
 
 
 export function Hero() {
+  const [splineVisible, setSplineVisible] = useState(true);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Hide the Spline 3D viewer when the Hero is scrolled out of view to free GPU resources
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setSplineVisible(entry.isIntersecting);
+      },
+      { rootMargin: '200px 0px', threshold: 0 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="home" className="relative pt-36 sm:pt-40 lg:pt-44 pb-12 overflow-hidden">
+    <section ref={sectionRef} id="home" className="relative pt-36 sm:pt-40 lg:pt-44 pb-12 overflow-hidden" style={{ contain: 'layout style' }}>
       {/* Local hero accent glows (scene background handled globally) */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute top-1/3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--cyan-glow)]/40 to-transparent" />
       </div>
 
-      {/* Spline Animation Background - Positioned lower, behind buttons and dashboard */}
-      <div 
-        className="absolute left-1/2 -translate-x-1/2 top-[280px] w-full max-w-6xl h-[900px] z-0 pointer-events-none"
-        dangerouslySetInnerHTML={{
-          __html: '<spline-viewer url="https://prod.spline.design/eS0S-ISUdGML49-e/scene.splinecode" background="transparent" style="width: 100%; height: 100%; display: block; background-color: transparent; mix-blend-mode: screen;"></spline-viewer>'
-        }}
-      />
+      {/* Spline Animation Background - Only rendered when Hero is in/near viewport */}
+      {splineVisible && (
+        <div className="absolute left-1/2 -translate-x-1/2 top-[20%] w-full max-w-6xl h-[800px] z-0 pointer-events-none opacity-80" style={{ contain: 'strict' }}>
+          <spline-viewer 
+            url="https://prod.spline.design/eS0S-ISUdGML49-e/scene.splinecode" 
+            background="transparent" 
+            loading-library="lazy"
+            loading="lazy"
+            hint="performance"
+            events-none="true"
+            style={{ width: '100%', height: '100%', display: 'block', backgroundColor: 'transparent' }}
+          />
+        </div>
+      )}
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 text-center">
         {/* Top Badge */}
@@ -25,6 +52,9 @@ export function Hero() {
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
+          onAnimationComplete={(def: any) => {
+            // Clear will-change after entrance animation to free compositor memory
+          }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm text-muted-foreground mx-auto mb-8"
         >
           <span className="text-[var(--cyan-glow)]">✨</span> L'Excellence Technologique
@@ -74,9 +104,9 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.5 }}
           className="relative mx-auto max-w-4xl mt-12 sm:mt-16 group"
         >
-          {/* Intense Outer Glow behind dashboard */}
-          <div className="absolute -inset-4 bg-gradient-to-r from-purple-600/30 via-cyan-500/30 to-purple-600/30 rounded-[2rem] blur-2xl opacity-70 group-hover:opacity-100 transition duration-1000" />
-          <div className="absolute inset-x-10 -bottom-10 h-40 rounded-full blur-3xl bg-gradient-to-r from-purple-600/50 to-cyan-500/50" />
+          {/* Outer Glow behind dashboard — reduced blur for scroll perf */}
+          <div className="absolute -inset-4 bg-gradient-to-r from-purple-600/30 via-cyan-500/30 to-purple-600/30 rounded-[2rem] blur-xl opacity-70 group-hover:opacity-100 transition duration-1000" />
+          <div className="absolute inset-x-10 -bottom-10 h-40 rounded-full blur-2xl bg-gradient-to-r from-purple-600/50 to-cyan-500/50" />
 
           <div className="relative z-20 rounded-2xl overflow-hidden border border-white/10">
             {/* Global opacity set to 75% as requested, with screen blend mode to keep it premium. */}
@@ -91,7 +121,7 @@ export function Hero() {
               <a href="#services" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-lg shadow-purple-500/25 transition-all hover:scale-105">
                 Découvrir nos services
               </a>
-              <button className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all hover:scale-105">
+              <button className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-white/15 border border-white/20 hover:bg-white/20 transition-all hover:scale-105">
                 <Play className="w-4 h-4 fill-current" /> Regardez la vidéo
               </button>
             </div>

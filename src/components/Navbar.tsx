@@ -7,6 +7,7 @@ const links = [
   { label: "Accueil", href: "#home" },
   { label: "À propos", href: "#about" },
   { label: "Services", href: "#services" },
+  { label: "Témoignages", href: "#testimonials" },
   { label: "Portfolio", href: "#portfolio" },
 ];
 
@@ -15,9 +16,18 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 

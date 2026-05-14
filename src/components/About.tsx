@@ -3,11 +3,11 @@ import { ArrowRight } from "lucide-react";
 
 export function About() {
   return (
-    <section id="about" className="relative py-24 sm:py-36 overflow-hidden">
-      {/* High-Visibility Section Background Decor */}
+    <section id="about" className="relative py-24 sm:py-36 overflow-hidden" style={{ contain: 'layout style' }}>
+      {/* High-Visibility Section Background Decor — blur reduced for scroll perf */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[5%] left-[-5%] w-[450px] h-[450px] bg-purple-600/40 blur-[80px] rounded-full opacity-80 animate-pulse" />
-        <div className="absolute bottom-[5%] right-[-5%] w-[400px] h-[400px] bg-cyan-500/30 blur-[70px] rounded-full opacity-70 animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-[5%] left-[-5%] w-[450px] h-[450px] bg-purple-600/40 blur-[50px] rounded-full opacity-80" />
+        <div className="absolute bottom-[5%] right-[-5%] w-[400px] h-[400px] bg-cyan-500/30 blur-[50px] rounded-full opacity-70" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15)_0%,transparent_60%)] opacity-50" />
       </div>
 
@@ -16,7 +16,7 @@ export function About() {
           <motion.div 
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex-1"
           >
@@ -37,8 +37,9 @@ export function About() {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="mt-12 p-8 rounded-[2rem] bg-black/40 border border-white/5 backdrop-blur-xl relative overflow-hidden group shadow-2xl"
+              className="mt-12 p-8 rounded-[2rem] bg-black/50 border border-white/5 backdrop-blur-sm relative overflow-hidden group shadow-2xl"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-purple-500/10 blur-2xl rounded-full" />
@@ -51,13 +52,13 @@ export function About() {
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="flex-1 w-full lg:max-w-md"
           >
-            <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-black/60 backdrop-blur-3xl p-8 sm:p-12 shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] group transition-all duration-500 hover:border-purple-500/30 hover:shadow-purple-500/10">
+            <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-black/70 backdrop-blur p-8 sm:p-12 shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] group transition-all duration-500 hover:border-purple-500/30 hover:shadow-purple-500/10">
               {/* Subtle halo spot behind the card */}
-              <div className="absolute -inset-20 bg-purple-500/5 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <div className="absolute -inset-20 bg-purple-500/5 blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               
               <div className="relative z-10">
                 <p className="text-2xl sm:text-3xl text-white font-bold leading-tight tracking-tight mb-8">
