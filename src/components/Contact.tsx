@@ -152,7 +152,7 @@ export function Contact() {
                   <ArrowRight className="w-6 h-6 text-cyan-400 group-hover:translate-x-1 transition-transform" />
                 </div>
                 <div className="text-center sm:text-left">
-                  <h4 className="text-xl text-white font-bold tracking-tight">Prêt à démarrer ?</h4>
+                  <h4 className="text-xl text-white font-bold tracking-tight">Prêt à démarrer  Pour Une Meillieure Experience?</h4>
                   <p className="text-sm text-muted-foreground/70 font-light mt-1">Parlons de votre prochain grand projet.</p>
                 </div>
               </div>
