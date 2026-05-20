@@ -194,6 +194,8 @@ export function Testimonials() {
         >
           <div className="w-full h-full relative opacity-90">
             <div className="absolute -inset-8 bg-purple-500/10 blur-[50px] rounded-full pointer-events-none" />
+            {/* Watermark Mask */}
+            <div className="absolute bottom-2 right-2 w-32 h-10 bg-[#16122c] z-10 rounded-md pointer-events-none" />
             <iframe
               src="https://my.spline.design/widgetscarouselcopycopy-I8B5wVUEzU5JzXcPqYfI2tYq-g0Z/"
               frameBorder="0"

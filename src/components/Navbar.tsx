@@ -7,8 +7,8 @@ const links = [
   { label: "Accueil", href: "#home" },
   { label: "À propos", href: "#about" },
   { label: "Services", href: "#services" },
-  { label: "Témoignages", href: "#testimonials" },
   { label: "Portfolio", href: "#portfolio" },
+  { label: "Témoignages", href: "#testimonials" },
 ];
 
 export function Navbar() {
@@ -36,13 +36,11 @@ export function Navbar() {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 px-4 pt-4"
+      className={`fixed top-6 left-0 right-0 z-50 px-4 sm:px-6 flex justify-center pointer-events-none transition-all duration-500`}
     >
-      <div
-        className={`mx-auto max-w-7xl transition-all duration-500 rounded-2xl ${
-          scrolled ? "glass-strong shadow-glow-soft" : "glass"
-        }`}
-      >
+      <div className={`w-full max-w-7xl transition-all duration-500 pointer-events-auto ${
+        scrolled ? `bg-black/70 backdrop-blur-md border border-white/10 shadow-lg py-2 px-2 ${open ? 'rounded-[2rem]' : 'rounded-full'}` : "bg-transparent py-2 px-0"
+      }`}>
         <div className="flex items-center px-5 sm:px-6 py-3">
           {/* Logo Container (Left) */}
           <div className="flex-1 flex justify-start">

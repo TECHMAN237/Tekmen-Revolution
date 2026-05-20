@@ -34,6 +34,8 @@ export function Hero() {
       {/* Spline Animation Background - Only rendered when Hero is in/near viewport */}
       {splineVisible && (
         <div className="absolute left-1/2 -translate-x-1/2 top-[20%] w-full max-w-6xl h-[800px] z-0 pointer-events-none opacity-80" style={{ contain: 'strict' }}>
+          {/* Watermark Mask - A solid background block to hide the Spline watermark cleanly */}
+          <div className="absolute bottom-4 right-4 w-32 h-12 bg-[#0B0F19] z-10 rounded-lg pointer-events-none" />
           <spline-viewer 
             url="https://prod.spline.design/eS0S-ISUdGML49-e/scene.splinecode" 
             background="transparent" 

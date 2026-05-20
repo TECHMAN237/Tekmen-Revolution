@@ -3,6 +3,7 @@ import { Navbar } from "../components/Navbar";
 import { Hero } from "../components/Hero";
 import { About } from "../components/About";
 import { Services } from "../components/Services";
+import { Portfolio } from "../components/Portfolio";
 import { StatsBar } from "../components/StatsBar";
 import { Testimonials } from "../components/Testimonials";
 import { SceneBackground } from "../components/SceneBackground";
@@ -43,6 +44,7 @@ function Index() {
       <About />
       <Services />
       <StatsBar />
+      <Portfolio />
       <Testimonials />
       <Contact />
       <footer className="py-16 text-center text-xs text-muted-foreground border-t border-white/5 relative z-10">

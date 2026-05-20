@@ -98,8 +98,6 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    /* Force GPU compositing layer for smoother scroll */
-    transform: translateZ(0);
   }
   h1, h2, h3, h4, .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
 
@@ -107,6 +105,10 @@
   #about, #services, #contact {
     content-visibility: auto;
     contain-intrinsic-size: auto 800px;
+  }
+
+  spline-viewer::part(logo) {
+    display: none !important;
   }
 }
 
