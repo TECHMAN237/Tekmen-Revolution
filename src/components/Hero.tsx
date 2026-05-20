@@ -94,9 +94,9 @@ export function Hero() {
           <a href="#services" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-[#6D28D9] hover:bg-[#5B21B6] transition-colors w-full sm:w-auto">
             Réserver une Démo <ArrowRight className="w-4 h-4" />
           </a>
-          <button className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-colors w-full sm:w-auto">
+          <a href="#about" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-colors w-full sm:w-auto">
             Découvrir comment ça marche
-          </button>
+          </a>
         </motion.div>
 
         {/* Dashboard Image */}

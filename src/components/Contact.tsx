@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { Send, Linkedin, Github, Phone, MessageSquare, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Send, Linkedin, Github, Phone, MessageSquare, ArrowRight, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 const SiLinkedin = (props: any) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -29,7 +30,7 @@ const contactCards = [
   {
     icon: SiLinkedin,
     label: "LinkedIn",
-    link: "#",
+    link: "https://www.linkedin.com/in/steeve-zali-5a70b6379/",
     color: "bg-[#0A66C2]",
   },
   {
@@ -41,7 +42,7 @@ const contactCards = [
   {
     icon: SiGithub,
     label: "GitHub",
-    link: "#",
+    link: "https://github.com/TECHMAN237",
     color: "bg-[#24292e]",
   },
   {
@@ -52,7 +53,96 @@ const contactCards = [
   },
 ];
 
+// ── API URL Configuration ────────────────────────────────────
+// In development: http://localhost:3001
+// In production: your deployed API URL
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
+// ── Email regex for client-side validation ───────────────────
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+type FormStatus = "idle" | "loading" | "success" | "error";
+
 export function Contact() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<string[]>([]);
+
+  // Client-side validation
+  function validateForm(): string[] {
+    const errors: string[] = [];
+    if (!name.trim() || name.trim().length < 2) {
+      errors.push("Full name is required (minimum 2 characters).");
+    }
+    if (!email.trim() || !EMAIL_REGEX.test(email.trim())) {
+      errors.push("A valid email address is required.");
+    }
+    if (!message.trim() || message.trim().length < 10) {
+      errors.push("Project details are required (minimum 10 characters).");
+    }
+    return errors;
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    // 1. Client-side validation
+    const errors = validateForm();
+    if (errors.length > 0) {
+      setFieldErrors(errors);
+      setStatus("error");
+      setStatusMessage(errors[0]);
+      return;
+    }
+
+    setFieldErrors([]);
+    setStatus("loading");
+    setStatusMessage("");
+
+    try {
+      // 2. Send to API
+      const response = await fetch(`${API_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          message: message.trim(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // 3. Success — reset form
+        setStatus("success");
+        setStatusMessage("Message sent successfully! ✨");
+        setName("");
+        setEmail("");
+        setMessage("");
+
+        // Auto-dismiss success message after 6 seconds
+        setTimeout(() => {
+          setStatus("idle");
+          setStatusMessage("");
+        }, 6000);
+      } else {
+        // 4. Server validation errors or failure
+        setStatus("error");
+        setStatusMessage(
+          data.errors?.[0] || data.error || "Failed to send message. Please try again."
+        );
+      }
+    } catch (err) {
+      // 5. Network error
+      setStatus("error");
+      setStatusMessage("Network error. Please check your connection and try again.");
+    }
+  }
+
   return (
     <section id="contact" className="relative py-24 sm:py-36 overflow-hidden" style={{ contain: 'layout style' }}>
       {/* High-Visibility Section Background Decor — optimized blur for scroll perf */}
@@ -97,43 +187,100 @@ export function Contact() {
             {/* Subtle light spot inside form */}
             <div className="absolute -top-24 -left-24 w-48 h-48 bg-cyan-500/5 blur-[40px] rounded-full pointer-events-none" />
             
-            <form className="space-y-7 relative z-10">
+            <form onSubmit={handleSubmit} className="space-y-7 relative z-10">
+              {/* Honeypot field — hidden from humans, traps bots */}
+              <input
+                type="text"
+                name="honeypot"
+                tabIndex={-1}
+                autoComplete="off"
+                style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, width: 0 }}
+              />
+
               <div className="space-y-2.5">
-                <label htmlFor="name" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">Full Name</label>
+                <label htmlFor="contact-name" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">Full Name</label>
                 <input 
                   type="text" 
-                  id="name"
+                  id="contact-name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Your Name"
-                  className="w-full px-7 py-5 rounded-2xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/40 focus:bg-white/[0.06] transition-all duration-300"
+                  disabled={status === "loading"}
+                  className="w-full px-7 py-5 rounded-2xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/40 focus:bg-white/[0.06] transition-all duration-300 disabled:opacity-50"
                 />
               </div>
               <div className="space-y-2.5">
-                <label htmlFor="email" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">Email Address</label>
+                <label htmlFor="contact-email" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">Email Address</label>
                 <input 
                   type="email" 
-                  id="email"
+                  id="contact-email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
-                  className="w-full px-7 py-5 rounded-2xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/40 focus:bg-white/[0.06] transition-all duration-300"
+                  disabled={status === "loading"}
+                  className="w-full px-7 py-5 rounded-2xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/40 focus:bg-white/[0.06] transition-all duration-300 disabled:opacity-50"
                 />
               </div>
               <div className="space-y-2.5">
-                <label htmlFor="message" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">Project Details</label>
+                <label htmlFor="contact-message" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">Project Details</label>
                 <textarea 
-                  id="message"
+                  id="contact-message"
                   rows={4}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   placeholder="Tell me about your project..."
-                  className="w-full px-7 py-5 rounded-2xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/40 focus:bg-white/[0.06] transition-all duration-300 resize-none"
+                  disabled={status === "loading"}
+                  className="w-full px-7 py-5 rounded-2xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/40 focus:bg-white/[0.06] transition-all duration-300 resize-none disabled:opacity-50"
                 />
               </div>
+
+              {/* Status Message */}
+              <AnimatePresence mode="wait">
+                {statusMessage && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: "auto" }}
+                    exit={{ opacity: 0, y: -10, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={`flex items-center gap-3 px-6 py-4 rounded-2xl text-sm font-semibold ${
+                      status === "success"
+                        ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                        : "bg-red-500/10 border border-red-500/20 text-red-400"
+                    }`}
+                  >
+                    {status === "success" ? (
+                      <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                    ) : (
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                    )}
+                    {statusMessage}
+                  </motion.div>
+                )}
+              </AnimatePresence>
               
               <motion.button 
-                whileHover={{ scale: 1.01, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                type="submit" 
-                className="w-full group flex items-center justify-center gap-3 py-5 rounded-2xl text-lg font-black text-white btn-primary-gradient shadow-[0_15px_40px_-10px_rgba(124,58,237,0.5)] transition-all"
+                whileHover={status !== "loading" ? { scale: 1.01, y: -2 } : {}}
+                whileTap={status !== "loading" ? { scale: 0.98 } : {}}
+                type="submit"
+                disabled={status === "loading"}
+                className="w-full group flex items-center justify-center gap-3 py-5 rounded-2xl text-lg font-black text-white btn-primary-gradient shadow-[0_15px_40px_-10px_rgba(124,58,237,0.5)] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                SEND MESSAGE
-                <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                {status === "loading" ? (
+                  <>
+                    SENDING...
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </>
+                ) : status === "success" ? (
+                  <>
+                    MESSAGE SENT ✓
+                    <CheckCircle className="w-5 h-5" />
+                  </>
+                ) : (
+                  <>
+                    SEND MESSAGE
+                    <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                  </>
+                )}
               </motion.button>
             </form>
           </motion.div>
@@ -152,6 +299,8 @@ export function Contact() {
                   <motion.a
                     key={idx}
                     href={card.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{ y: -5 }}
                     className="group relative flex flex-col items-center justify-center p-4 rounded-2xl hover:bg-white/5 transition-all duration-300"
                   >
