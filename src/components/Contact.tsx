@@ -104,7 +104,8 @@ export function Contact() {
 
     try {
       // 2. Send to API
-      const response = await fetch(`${API_URL}/api/contact`, {
+      console.log("📤 Sending contact request to /api/contact...");
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
