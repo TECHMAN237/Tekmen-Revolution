@@ -10,13 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SafechildAccessRouteImport } from './routes/safechild-access'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesMontageVideoRouteImport } from './routes/services/montage-video'
+import { Route as ServicesMarketingDigitalRouteImport } from './routes/services/marketing-digital'
+import { Route as ServicesGraphicDesignRouteImport } from './routes/services/graphic-design'
+import { Route as ServicesDeveloppementWebRouteImport } from './routes/services/developpement-web'
 
 const TestimonialsRoute = TestimonialsRouteImport.update({
   id: '/testimonials',
   path: '/testimonials',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SafechildAccessRoute = SafechildAccessRouteImport.update({
@@ -34,38 +44,104 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesMontageVideoRoute = ServicesMontageVideoRouteImport.update({
+  id: '/montage-video',
+  path: '/montage-video',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesMarketingDigitalRoute =
+  ServicesMarketingDigitalRouteImport.update({
+    id: '/marketing-digital',
+    path: '/marketing-digital',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesGraphicDesignRoute = ServicesGraphicDesignRouteImport.update({
+  id: '/graphic-design',
+  path: '/graphic-design',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesDeveloppementWebRoute =
+  ServicesDeveloppementWebRouteImport.update({
+    id: '/developpement-web',
+    path: '/developpement-web',
+    getParentRoute: () => ServicesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/portfolio': typeof PortfolioRoute
   '/safechild-access': typeof SafechildAccessRoute
+  '/services': typeof ServicesRouteWithChildren
   '/testimonials': typeof TestimonialsRoute
+  '/services/developpement-web': typeof ServicesDeveloppementWebRoute
+  '/services/graphic-design': typeof ServicesGraphicDesignRoute
+  '/services/marketing-digital': typeof ServicesMarketingDigitalRoute
+  '/services/montage-video': typeof ServicesMontageVideoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/portfolio': typeof PortfolioRoute
   '/safechild-access': typeof SafechildAccessRoute
+  '/services': typeof ServicesRouteWithChildren
   '/testimonials': typeof TestimonialsRoute
+  '/services/developpement-web': typeof ServicesDeveloppementWebRoute
+  '/services/graphic-design': typeof ServicesGraphicDesignRoute
+  '/services/marketing-digital': typeof ServicesMarketingDigitalRoute
+  '/services/montage-video': typeof ServicesMontageVideoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/portfolio': typeof PortfolioRoute
   '/safechild-access': typeof SafechildAccessRoute
+  '/services': typeof ServicesRouteWithChildren
   '/testimonials': typeof TestimonialsRoute
+  '/services/developpement-web': typeof ServicesDeveloppementWebRoute
+  '/services/graphic-design': typeof ServicesGraphicDesignRoute
+  '/services/marketing-digital': typeof ServicesMarketingDigitalRoute
+  '/services/montage-video': typeof ServicesMontageVideoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/portfolio' | '/safechild-access' | '/testimonials'
+  fullPaths:
+    | '/'
+    | '/portfolio'
+    | '/safechild-access'
+    | '/services'
+    | '/testimonials'
+    | '/services/developpement-web'
+    | '/services/graphic-design'
+    | '/services/marketing-digital'
+    | '/services/montage-video'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/portfolio' | '/safechild-access' | '/testimonials'
-  id: '__root__' | '/' | '/portfolio' | '/safechild-access' | '/testimonials'
+  to:
+    | '/'
+    | '/portfolio'
+    | '/safechild-access'
+    | '/services'
+    | '/testimonials'
+    | '/services/developpement-web'
+    | '/services/graphic-design'
+    | '/services/marketing-digital'
+    | '/services/montage-video'
+  id:
+    | '__root__'
+    | '/'
+    | '/portfolio'
+    | '/safechild-access'
+    | '/services'
+    | '/testimonials'
+    | '/services/developpement-web'
+    | '/services/graphic-design'
+    | '/services/marketing-digital'
+    | '/services/montage-video'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PortfolioRoute: typeof PortfolioRoute
   SafechildAccessRoute: typeof SafechildAccessRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
   TestimonialsRoute: typeof TestimonialsRoute
 }
 
@@ -76,6 +152,13 @@ declare module '@tanstack/react-router' {
       path: '/testimonials'
       fullPath: '/testimonials'
       preLoaderRoute: typeof TestimonialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/safechild-access': {
@@ -99,13 +182,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/montage-video': {
+      id: '/services/montage-video'
+      path: '/montage-video'
+      fullPath: '/services/montage-video'
+      preLoaderRoute: typeof ServicesMontageVideoRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/marketing-digital': {
+      id: '/services/marketing-digital'
+      path: '/marketing-digital'
+      fullPath: '/services/marketing-digital'
+      preLoaderRoute: typeof ServicesMarketingDigitalRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/graphic-design': {
+      id: '/services/graphic-design'
+      path: '/graphic-design'
+      fullPath: '/services/graphic-design'
+      preLoaderRoute: typeof ServicesGraphicDesignRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/developpement-web': {
+      id: '/services/developpement-web'
+      path: '/developpement-web'
+      fullPath: '/services/developpement-web'
+      preLoaderRoute: typeof ServicesDeveloppementWebRouteImport
+      parentRoute: typeof ServicesRoute
+    }
   }
 }
+
+interface ServicesRouteChildren {
+  ServicesDeveloppementWebRoute: typeof ServicesDeveloppementWebRoute
+  ServicesGraphicDesignRoute: typeof ServicesGraphicDesignRoute
+  ServicesMarketingDigitalRoute: typeof ServicesMarketingDigitalRoute
+  ServicesMontageVideoRoute: typeof ServicesMontageVideoRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesDeveloppementWebRoute: ServicesDeveloppementWebRoute,
+  ServicesGraphicDesignRoute: ServicesGraphicDesignRoute,
+  ServicesMarketingDigitalRoute: ServicesMarketingDigitalRoute,
+  ServicesMontageVideoRoute: ServicesMontageVideoRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PortfolioRoute: PortfolioRoute,
   SafechildAccessRoute: SafechildAccessRoute,
+  ServicesRoute: ServicesRouteWithChildren,
   TestimonialsRoute: TestimonialsRoute,
 }
 export const routeTree = rootRouteImport

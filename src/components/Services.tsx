@@ -1,130 +1,157 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Palette, Clapperboard, Headphones, type LucideIcon } from "lucide-react";
+import { motion } from "framer-motion";
+import { Code2, Palette, Clapperboard, TrendingUp, ArrowRight, type LucideIcon } from "lucide-react";
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 
-const services: { icon: LucideIcon; title: string; subtitle: string; description: string }[] = [
-  { 
-    icon: Code2, 
-    title: "Développement", 
-    subtitle: "Web & Logiciel",
-    description: "Architecture haute précision pour performance brute."
+const services: { icon: LucideIcon; title: string; subtitle: string; description: string; href: string; emoji: string; valueProposition: string }[] = [
+  {
+    icon: Palette,
+    title: "Graphic Design",
+    subtitle: "Identité Visuelle & Print",
+    description: "Des créations visuelles professionnelles qui valorisent votre image de marque.",
+    href: "/services/graphic-design",
+    emoji: "🎨",
+    valueProposition: "Transformez votre marque en une identité visuelle mémorable qui capte l'attention.",
   },
-  { 
-    icon: Palette, 
-    title: "Design Graphique", 
-    subtitle: "& Production Vidéo",
-    description: "Esthétique premium au service de l'impact."
+  {
+    icon: Clapperboard,
+    title: "Montage Vidéo",
+    subtitle: "Production & Motion",
+    description: "Donnez vie à votre communication grâce à des vidéos engageantes.",
+    href: "/services/montage-video",
+    emoji: "🎬",
+    valueProposition: "Des contenus vidéo percutants qui convertissent et fidélisent votre audience.",
   },
-  { 
-    icon: Clapperboard, 
-    title: "Video Editing", 
-    subtitle: "Cinematic & Motion",
-    description: "Narration visuelle et montage d'élite."
+  {
+    icon: Code2,
+    title: "Développement Web & Mobile",
+    subtitle: "Sites & Applications",
+    description: "Des solutions numériques modernes conçues pour accélérer votre croissance.",
+    href: "/services/developpement-web",
+    emoji: "💻",
+    valueProposition: "Des plateformes performantes qui génèrent des résultats et vous démarquent.",
   },
-  { 
-    icon: Headphones, 
-    title: "Support Technique", 
-    subtitle: "24/7",
-    description: "Excellence opérationnelle et fiabilité garantie."
+  {
+    icon: TrendingUp,
+    title: "Marketing Digital",
+    subtitle: "Stratégie & Acquisition",
+    description: "Développez votre visibilité et transformez votre audience en clients.",
+    href: "/services/marketing-digital",
+    emoji: "📈",
+    valueProposition: "Des stratégies data-driven qui boostent vos ventes et votre ROI.",
   },
 ];
 
-function ServiceCard({ s, i, isHovered, setHoveredIndex }: { s: any, i: number, isHovered: boolean, setHoveredIndex: (idx: number | null) => void }) {
-  // 0: Dev (White glass), 1: Design (Dark glass), 2: Video (Dark glass), 3: Support (White glass)
-  const isDark = i === 1 || i === 2;
-  const isLight = i === 0 || i === 3;
-
+function ServiceCard({
+  s,
+  i,
+  isHovered,
+  setHoveredIndex,
+}: {
+  s: (typeof services)[0];
+  i: number;
+  isHovered: boolean;
+  setHoveredIndex: (idx: number | null) => void;
+}) {
   return (
-    <motion.div
-      onMouseEnter={() => setHoveredIndex(i)}
-      onMouseLeave={() => setHoveredIndex(null)}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration: 0.5, delay: i * 0.1 }}
-      whileHover={{ y: -8 }}
-      className={`group relative cursor-pointer rounded-[2.5rem] transition-all duration-300 ${
-        !isHovered ? "opacity-95" : "opacity-100"
-      }`}
-    >
-      {/* Optimized Outer Glow for Hover */}
-      {isHovered && (
-        <div 
-          className="absolute -inset-4 rounded-[3rem] blur-2xl pointer-events-none transition-opacity duration-500 bg-cyan-500/10 opacity-100"
-        />
-      )}
-
-      {/* Card Body Container */}
-      <div
-        className={`relative h-full min-h-[260px] rounded-[2.5rem] p-7 sm:p-9 overflow-hidden transition-all duration-300 border flex flex-col ${
-          isDark 
-            ? "bg-black/50 backdrop-blur-sm border-white/10 hover:border-cyan-400/30 shadow-none hover:shadow-neon-cyan/20"
-            : "bg-white/[0.12] backdrop-blur-sm border-white/20 hover:border-blue-300/40 shadow-none hover:shadow-glow-soft"
-        }`}
+    <Link to={s.href as any}>
+      <motion.div
+        onMouseEnter={() => setHoveredIndex(i)}
+        onMouseLeave={() => setHoveredIndex(null)}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 0.55, delay: i * 0.12 }}
+        whileHover={{ y: -8, scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="group relative cursor-pointer rounded-[2rem] transition-all duration-300 h-full flex flex-col"
       >
-        {/* Subtle Shine Effect */}
-        <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-tr from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full" />
-
-        {/* Icon Wrapper */}
-        <div 
-          className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-7 transition-all duration-300 border ${
+        {/* Premium glow effect */}
+        <div
+          className={`absolute -inset-2 rounded-[2.5rem] blur-2xl pointer-events-none transition-opacity duration-500 ${
             isHovered
-              ? "bg-gradient-to-br from-cyan-400 to-blue-600 border-transparent shadow-lg" 
-              : "bg-white/5 border-white/10"
+              ? "opacity-100 bg-gradient-to-br from-purple-600/25 via-indigo-600/15 to-transparent"
+              : "opacity-0 bg-gradient-to-br from-purple-600/10 to-transparent"
           }`}
+        />
+
+        {/* Card body */}
+        <div
+          className={`relative h-full min-h-[300px] rounded-[2rem] p-8 sm:p-10 overflow-hidden transition-all duration-400 border flex flex-col justify-between ${
+            isHovered
+              ? "bg-gradient-to-b from-white/[0.12] to-white/[0.06] border-purple-500/40 shadow-[0_30px_100px_-25px_rgba(124,58,237,0.4)]"
+              : "bg-white/[0.04] border-white/10 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.3)]"
+          } backdrop-blur-sm`}
         >
-          <s.icon className={`w-7 h-7 transition-colors duration-300 ${
-            isHovered ? "text-white" : "text-cyan-400"
-          }`} />
-        </div>
+          {/* Shine sweep effect */}
+          <div
+            className={`absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/8 to-transparent transition-all duration-700 ${
+              isHovered ? "translate-x-full opacity-100" : "-translate-x-full opacity-0"
+            }`}
+          />
 
-        {/* Text Content */}
-        <div className="space-y-2.5 relative z-10">
-          <h3 className={`font-display font-bold text-lg leading-tight ${
-            isLight && !isHovered ? "text-white/95" : "text-white"
-          }`}>
-            {s.title}
-          </h3>
-          <p className="text-xs sm:text-sm text-muted-foreground/90 font-medium">
-            {s.subtitle}
-          </p>
-        </div>
+          {/* Top section */}
+          <div>
+            {/* Emoji badge */}
+            <div className="text-4xl mb-6">{s.emoji}</div>
 
-        {/* Simplified Micro-description */}
-        <div className="mt-4 h-10 overflow-hidden relative z-10">
-          <AnimatePresence>
-            {isHovered && (
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="text-[11px] sm:text-xs text-cyan-300 font-medium italic"
-              >
-                {s.description}
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Spacer */}
-        <div className="flex-grow" />
-
-        {/* Bottom 3 Dots */}
-        <div className="mt-6 flex gap-2 items-center relative z-10">
-          {[0, 1, 2].map((d) => (
+            {/* Icon circle */}
             <div
-              key={d}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
+              className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-400 border ${
                 isHovered
-                  ? (d === 0 ? "w-8 bg-cyan-400 shadow-[0_0_8px_cyan]" : "w-1.5 bg-cyan-400/30") 
-                  : "w-1.5 bg-white/10"
+                  ? "bg-gradient-to-br from-purple-600 to-indigo-600 border-transparent shadow-[0_8px_30px_-8px_rgba(124,58,237,0.6)]"
+                  : "bg-white/[0.05] border-white/10"
               }`}
-            />
-          ))}
+            >
+              <s.icon
+                className={`w-8 h-8 transition-colors duration-300 ${
+                  isHovered ? "text-white" : "text-purple-400"
+                }`}
+              />
+            </div>
+
+            {/* Title & subtitle */}
+            <div className="space-y-2 mb-4">
+              <h3 className="font-display font-bold text-xl sm:text-2xl text-white leading-tight">
+                {s.title}
+              </h3>
+              <p className="text-sm text-purple-300/80 font-medium">
+                {s.subtitle}
+              </p>
+            </div>
+
+            {/* Value proposition */}
+            <p
+              className={`text-sm leading-relaxed transition-all duration-400 ${
+                isHovered ? "text-muted-foreground/90" : "text-muted-foreground/55"
+              }`}
+            >
+              {s.valueProposition}
+            </p>
+          </div>
+
+          {/* Bottom CTA */}
+          <div
+            className={`mt-8 pt-6 border-t border-white/10 transition-all duration-400 ${
+              isHovered ? "border-purple-500/20" : ""
+            }`}
+          >
+            <div
+              className={`flex items-center gap-2 transition-all duration-400 ${
+                isHovered ? "text-purple-300" : "text-white/40"
+              }`}
+            >
+              <span className="text-xs font-bold uppercase tracking-wider">Découvrir le service</span>
+              <ArrowRight
+                className={`w-4 h-4 transition-transform duration-400 ${
+                  isHovered ? "translate-x-2" : ""
+                }`}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 }
 
@@ -132,31 +159,30 @@ export function Services() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="services" className="relative py-24 sm:py-36 overflow-hidden" style={{ contain: 'layout style' }}>
-      {/* High-Visibility Section Background Decor — optimized blur for scroll perf */}
+    <section id="services" className="relative py-24 sm:py-32 overflow-hidden" style={{ contain: "layout style" }}>
+      {/* Background with depth */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.18)_0%,transparent_70%)] opacity-60" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-600/30 blur-[60px] rounded-full opacity-70" />
-        <div className="absolute top-[10%] right-[-5%] w-[450px] h-[450px] bg-blue-600/20 blur-[50px] rounded-full opacity-60" />
-        
-        {/* Visible Section Grid */}
-        <div className="absolute inset-0 opacity-[0.12] bg-[linear-gradient(to_right,#80808020_1px,transparent_1px),linear-gradient(to_bottom,#80808020_1px,transparent_1px)] bg-[size:50px_50px]" />
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(to_right,#80808020_1px,transparent_1px),linear-gradient(to_bottom,#80808020_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+        {/* Animated gradients */}
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/15 blur-[100px] rounded-full animate-pulse" style={{ animationDuration: "8s" }} />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-600/10 blur-[80px] rounded-full animate-pulse" style={{ animationDuration: "10s" }} />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 relative z-10">
         {/* Header Section */}
-        <div className="text-center mb-24">
+        <div className="text-center mb-28">
           <motion.h2
             initial={{ opacity: 0, y: -40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display font-semibold tracking-tight text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-8 leading-[1.1]"
+            className="font-display font-semibold tracking-tight text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-10 leading-[1.1]"
           >
-            L’Innovation à 360° : <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">L'Écosystème Digital</span>
+            Nos Services d'Expertise
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -164,23 +190,39 @@ export function Services() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-sm sm:text-base md:text-lg text-muted-foreground/70 max-w-3xl mx-auto font-light leading-relaxed"
           >
-            Chez TEKMEN REVOLUTION, nous transformons votre vision en un produit tangible, 
-            esthétique et performant. Une approche globale pour des solutions qui dominent.
+            Chez TEKMEN REVOLUTION, nous combinons créativité, technique et stratégie pour vous offrir des solutions digitales qui marquent votre marque et génèrent des résultats concrets.
           </motion.p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {services.map((s, i) => (
-            <ServiceCard 
-              key={s.title} 
-              s={s} 
-              i={i} 
-              isHovered={hoveredIndex === i} 
-              setHoveredIndex={setHoveredIndex} 
+            <ServiceCard
+              key={s.title}
+              s={s}
+              i={i}
+              isHovered={hoveredIndex === i}
+              setHoveredIndex={setHoveredIndex}
             />
           ))}
         </div>
+
+        {/* Main CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mt-20 text-center"
+        >
+          <Link
+            to="/services/graphic-design"
+            className="inline-flex items-center gap-3 px-10 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-[0_0_40px_rgba(124,58,237,0.4)] hover:scale-105"
+          >
+            Explorer nos solutions
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
