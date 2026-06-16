@@ -1,10 +1,39 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Check, MessageCircle, Star, ChevronDown, type LucideIcon } from "lucide-react";
+import { ArrowRight, Check, MessageCircle, Star, ChevronDown, ArrowLeft, type LucideIcon } from "lucide-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import logoImg from "../../logo.png";
 
+const PHONE_WA = "237697368251";
+
+const DEFAULT_WHATSAPP_MESSAGE = `Bonjour Tekmen Revolution 👋
+
+Je vous contacte concernant vos services.
+
+J'aimerais obtenir des informations, poser une question ou discuter d'un projet.
+
+Mon message :
+
+---
+
+Merci et au plaisir d'échanger avec vous.`;
+
+function buildWhatsappUrl(message: string) {
+  return `https://wa.me/${PHONE_WA}?text=${encodeURIComponent(message)}`;
+}
+
+function WhatsAppHint({ variant }: { variant: "devis" | "general" }) {
+  return (
+    <p className="text-[11px] sm:text-xs text-muted-foreground/75 font-light leading-relaxed mt-2">
+      {variant === "devis"
+        ? "Une question, un projet ou besoin d'un devis ? Échangez directement avec notre équipe."
+        : "Nous répondons généralement en quelques heures."}
+    </p>
+  );
+}
+
 /* ─── Interfaces ─── */
+
 export interface WhyChooseUsItem {
   title: string;
   description: string;
@@ -226,6 +255,17 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
 
   return (
     <main className="relative min-h-screen text-foreground bg-[#0B0F19] overflow-x-hidden">
+      {/* ─── RETOUR EN HAUT (SERVICE PAGE) ─── */}
+      <Link
+        to="/"
+        hash="services"
+        aria-label="Retour à l'accueil (Services)"
+        className="fixed top-5 left-4 sm:top-6 sm:left-6 z-[60] inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs sm:text-sm font-semibold text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-all shadow-lg"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        <span className="hidden sm:inline">Retour</span>
+      </Link>
+
       {/* ─── HEADER/NAVBAR ─── */}
       <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 bg-[#0B0F19]/80 backdrop-blur-xl border-b border-white/5">
         <div className="mx-auto max-w-7xl flex items-center justify-between py-3.5">
@@ -308,22 +348,31 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto sm:max-w-none"
           >
-            <a
-              href="https://wa.me/237697368251?text=Bonjour%2C%20je%20souhaite%20demander%20un%20devis"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all shadow-[0_0_30px_rgba(124,58,237,0.4)]"
-            >
-              Demander un devis <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href="https://wa.me/237697368251"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-white bg-white/[0.06] border border-white/10 hover:bg-white/10 transition-all"
-            >
-              <MessageCircle className="w-4 h-4 text-emerald-400" /> WhatsApp
-            </a>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto sm:max-w-none">
+              <div className="text-center">
+                <a
+                  href={buildWhatsappUrl(DEFAULT_WHATSAPP_MESSAGE)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all shadow-[0_0_30px_rgba(124,58,237,0.4)]"
+                >
+                  Demander un devis <ArrowRight className="w-4 h-4" />
+                </a>
+                <WhatsAppHint variant="devis" />
+              </div>
+
+              <div className="text-center">
+                <a
+                  href={buildWhatsappUrl(DEFAULT_WHATSAPP_MESSAGE)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-white bg-white/[0.06] border border-white/10 hover:bg-white/10 transition-all"
+                >
+                  <MessageCircle className="w-4 h-4 text-emerald-400" /> WhatsApp
+                </a>
+                <WhatsAppHint variant="general" />
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -475,14 +524,31 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                       <div className="font-display font-bold text-2xl sm:text-3xl text-white mb-6">
                         {card.price}
                       </div>
+                  <div className="flex flex-col gap-2">
                       <a
-                        href={`https://wa.me/237697368251?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20%3A%20${encodeURIComponent(card.label)}`}
+                        href={buildWhatsappUrl(`Bonjour Tekmen Revolution 👋
+
+Je vous contacte concernant vos services.
+
+J'aimerais obtenir des informations, poser une question ou discuter d'un projet.
+
+Mon message :
+
+---
+
+Merci et au plaisir d'échanger avec vous.
+
+Mon message concernant :
+
+Devis — ${card.label}`)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border border-purple-500/30 hover:bg-purple-600/30 transition-all duration-300"
                       >
                         Demander un devis <ArrowRight className="w-4 h-4" />
                       </a>
+                        <WhatsAppHint variant="devis" />
+                      </div>
                     </div>
                   </div>
                 </FadeIn>
@@ -544,18 +610,35 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                     ))}
                   </ul>
 
-                  <a
-                    href={`https://wa.me/237697368251?text=Bonjour%2C%20je%20souhaite%20souscrire%20à%20la%20formule%20%3A%20${plan.name}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-[1.02] ${
-                      plan.highlighted
-                        ? "text-white bg-gradient-to-r from-purple-600 to-indigo-600 shadow-[0_0_25px_rgba(124,58,237,0.4)]"
-                        : "text-white bg-white/[0.06] border border-white/10 hover:bg-white/10"
-                    }`}
-                  >
-                    Souscrire <ArrowRight className="w-4 h-4" />
-                  </a>
+                  <div className="flex flex-col gap-2">
+                        <a
+                          href={buildWhatsappUrl(`Bonjour Tekmen Revolution 👋
+
+Je vous contacte concernant vos services.
+
+J'aimerais obtenir des informations, poser une question ou discuter d'un projet.
+
+Mon message :
+
+---
+
+Merci et au plaisir d'échanger avec vous.
+
+Mon message concernant :
+
+Formule — ${plan.name}`)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-[1.02] ${
+                            plan.highlighted
+                              ? "text-white bg-gradient-to-r from-purple-600 to-indigo-600 shadow-[0_0_25px_rgba(124,58,237,0.4)]"
+                              : "text-white bg-white/[0.06] border border-white/10 hover:bg-white/10"
+                          }`}
+                        >
+                      Souscrire <ArrowRight className="w-4 h-4" />
+                    </a>
+                    <WhatsAppHint variant="devis" />
+                  </div>
                 </div>
               </FadeIn>
             ))}
@@ -597,22 +680,33 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
               Nous accompagnons les entreprises, marques et entrepreneurs dans leur croissance digitale grâce à des solutions créatives et performantes.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto sm:max-w-none">
-              <a
-                href="https://wa.me/237697368251?text=Bonjour%2C%20je%20souhaite%20demander%20un%20devis"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-10 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all shadow-[0_0_40px_rgba(124,58,237,0.4)]"
-              >
-                Demander un devis gratuit <ArrowRight className="w-5 h-5" />
-              </a>
-              <a
-                href="https://wa.me/237697368251"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-semibold text-white bg-white/[0.06] border border-white/10 hover:bg-white/10 transition-all"
-              >
-                <MessageCircle className="w-5 h-5 text-emerald-400" /> Contacter sur WhatsApp
-              </a>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto sm:max-w-none">
+                <div className="text-center">
+                  <a
+                    href={buildWhatsappUrl(`${DEFAULT_WHATSAPP_MESSAGE}
+
+Je souhaite demander un devis gratuit.`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-10 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all shadow-[0_0_40px_rgba(124,58,237,0.4)]"
+                  >
+                    Demander un devis gratuit <ArrowRight className="w-5 h-5" />
+                  </a>
+                  <WhatsAppHint variant="devis" />
+                </div>
+
+                <div className="text-center">
+                  <a
+                    href={buildWhatsappUrl(DEFAULT_WHATSAPP_MESSAGE)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-semibold text-white bg-white/[0.06] border border-white/10 hover:bg-white/10 transition-all"
+                  >
+                    <MessageCircle className="w-5 h-5 text-emerald-400" /> Contacter sur WhatsApp
+                  </a>
+                  <WhatsAppHint variant="general" />
+                </div>
+              </div>
             </div>
           </FadeIn>
         </div>
@@ -628,13 +722,14 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
 
       {/* ─── FLOATING WHATSAPP BUTTON ─── */}
       <a
-        href="https://wa.me/237697368251"
+        href={buildWhatsappUrl(DEFAULT_WHATSAPP_MESSAGE)}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-[0_4px_25px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform duration-300"
         aria-label="WhatsApp"
       >
         <MessageCircle className="w-6 h-6 text-white" />
+        <span className="sr-only">Une question, un projet ou besoin d'un devis ? Échangez directement avec notre équipe.</span>
       </a>
     </main>
   );
