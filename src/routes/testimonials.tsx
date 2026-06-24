@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "../components/Navbar";
 import { Testimonials } from "../components/Testimonials";
 import logoImg from "../../logo.png";
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 export const Route = createFileRoute("/testimonials")({
   head: () => ({
@@ -29,6 +30,8 @@ export const Route = createFileRoute("/testimonials")({
 });
 
 function TestimonialsPage() {
+  const { t } = useLanguage();
+
   return (
     <main className="relative min-h-screen text-foreground bg-[var(--background)]">
       {/* Subtle background grid */}
@@ -52,7 +55,7 @@ function TestimonialsPage() {
             alt="TEKMEN REVOLUTION"
             className="h-10 w-auto opacity-70 hover:opacity-100 transition-opacity"
           />
-          <p>© {new Date().getFullYear()} TEKMEN REVOLUTION. Tous droits réservés.</p>
+          <p>© {new Date().getFullYear()} TEKMEN REVOLUTION. {t(translations.footer.rights)}</p>
         </div>
       </footer>
     </main>

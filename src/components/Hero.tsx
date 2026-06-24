@@ -2,11 +2,13 @@ import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import dashboardImg from "../../dashboard.png";
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 
 export function Hero() {
   const [splineVisible, setSplineVisible] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
 
   // Hide the Spline 3D viewer when the Hero is scrolled out of view to free GPU resources
   useEffect(() => {
@@ -59,7 +61,7 @@ export function Hero() {
           }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm text-muted-foreground mx-auto mb-8"
         >
-          <span className="text-[var(--cyan-glow)]">✨</span> L'Excellence Technologique
+          <span className="text-[var(--cyan-glow)]">✨</span> {t(translations.hero.badge).replace('✨ ', '')}
         </motion.div>
 
         {/* Main Title */}
@@ -69,8 +71,8 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="font-display font-semibold tracking-tight text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-4xl mx-auto leading-[1.1] mb-6"
         >
-          La puissance de <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-[#28B6FF]">TEKMEN</span>
-          <br />REVOLUTION
+          {t(translations.hero.titleLine1)}<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-[#28B6FF]">{t(translations.hero.titleBrand)}</span>
+          <br />{t(translations.hero.titleLine2)}
         </motion.h1>
 
         {/* Subtitle */}
@@ -80,8 +82,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           className="text-sm sm:text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-10 font-light leading-relaxed"
         >
-          Connectez votre entreprise avec les solutions parfaites grâce à notre 
-          expertise intelligente. Plus rapide, plus précis, plus efficace en Design, Web, Vidéo et Ingénierie.
+          {t(translations.hero.subtitle)}
         </motion.p>
 
         {/* Call to Action Buttons */}
@@ -92,10 +93,10 @@ export function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
           <a href="#services" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-[#6D28D9] hover:bg-[#5B21B6] transition-colors w-full sm:w-auto">
-            Réserver une Démo <ArrowRight className="w-4 h-4" />
+            {t(translations.hero.ctaPrimary)} <ArrowRight className="w-4 h-4" />
           </a>
           <a href="#about" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-colors w-full sm:w-auto">
-            Découvrir comment ça marche
+            {t(translations.hero.ctaSecondary)}
           </a>
         </motion.div>
 
@@ -121,10 +122,10 @@ export function Hero() {
             {/* Real Interactive Buttons overlaid on the dashboard */}
             <div className="absolute bottom-[10%] left-0 right-0 flex justify-center gap-4 px-4">
               <a href="#services" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-lg shadow-purple-500/25 transition-all hover:scale-105">
-                Découvrir nos services
+                {t(translations.hero.discoverServices)}
               </a>
               <button className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-white/15 border border-white/20 hover:bg-white/20 transition-all hover:scale-105">
-                <Play className="w-4 h-4 fill-current" /> Regardez la vidéo
+                <Play className="w-4 h-4 fill-current" /> {t(translations.hero.watchVideo)}
               </button>
             </div>
           </div>

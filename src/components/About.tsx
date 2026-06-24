@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 export function About() {
+  const { t } = useLanguage();
+
   return (
     <section id="about" className="relative py-24 sm:py-36 overflow-hidden" style={{ contain: 'layout style' }}>
       {/* High-Visibility Section Background Decor — blur reduced for scroll perf */}
@@ -22,16 +25,15 @@ export function About() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-[10px] font-black tracking-[0.2em] text-purple-400 uppercase mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(167,139,250,1)] animate-pulse" />
-              À propos de nous
+              {t(translations.about.badge)}
             </div>
             
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-[1.05] tracking-tight">
-              À travers <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-400 to-[#28B6FF]">TEKMEN REVOLUTION</span>, j'accompagne les entreprises...
+              {t(translations.about.titlePrefix)}<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-400 to-[#28B6FF]">TEKMEN REVOLUTION</span>{t(translations.about.titleSuffix)}
             </h2>
             
             <p className="mt-8 text-base sm:text-lg text-muted-foreground/90 leading-relaxed max-w-2xl font-light">
-              J'accompagne les entreprises et les particuliers dans la création d'un écosystème digital complet. 
-              Mon objectif : transformer votre vision en un produit tangible, esthétique et performant.
+              {t(translations.about.description)}
             </p>
             
             <motion.div 
@@ -44,7 +46,7 @@ export function About() {
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-purple-500/10 blur-2xl rounded-full" />
               <p className="text-lg sm:text-xl font-medium text-white/90 italic relative z-10 leading-relaxed">
-                "Pourquoi multiplier les prestataires quand vous pouvez centraliser l'excellence ?"
+                {t(translations.about.quote)}
               </p>
             </motion.div>
           </motion.div>
@@ -62,14 +64,14 @@ export function About() {
               
               <div className="relative z-10">
                 <p className="text-2xl sm:text-3xl text-white font-bold leading-tight tracking-tight mb-8">
-                  Ne vous contentez pas d'exister en ligne, dominez votre secteur.
+                  {t(translations.about.cardTitle)}
                 </p>
                 
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent mb-10" />
                 
                 <div className="space-y-8">
                   <p className="text-sm text-muted-foreground/80 font-medium">
-                    Découvrez toute l'étendue de notre expertise sur mon portfolio :
+                    {t(translations.about.cardSubtitle)}
                   </p>
                   
                   <div className="flex flex-col gap-4">
@@ -79,7 +81,7 @@ export function About() {
                       href="#portfolio" 
                       className="group relative inline-flex items-center justify-center gap-3 px-8 py-4.5 rounded-2xl text-base font-bold text-white btn-primary-gradient shadow-xl shadow-purple-500/20 transition-all"
                     >
-                      EXPLORE OUR PORTFOLIO
+                      {t(translations.about.explorePortfolio)}
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </motion.a>
                     <motion.a 
@@ -88,7 +90,7 @@ export function About() {
                       href="#contact" 
                       className="inline-flex items-center justify-center px-8 py-4.5 rounded-2xl text-base font-bold text-white border border-white/10 bg-white/5 transition-all"
                     >
-                      BOOK NOW
+                      {t(translations.about.bookNow)}
                     </motion.a>
                   </div>
                 </div>

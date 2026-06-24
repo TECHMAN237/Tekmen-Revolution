@@ -9,6 +9,7 @@ import { Testimonials } from "../components/Testimonials";
 import { SceneBackground } from "../components/SceneBackground";
 import { Contact } from "../components/Contact";
 import logoImg from "../../logo.png";
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,6 +37,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { t } = useLanguage();
+
   return (
     <main className="relative min-h-screen text-foreground">
       <SceneBackground />
@@ -50,7 +53,7 @@ function Index() {
       <footer className="py-16 text-center text-xs text-muted-foreground border-t border-white/5 relative z-10">
         <div className="flex flex-col items-center gap-6">
           <img src={logoImg} alt="TEKMEN REVOLUTION" className="h-10 w-auto opacity-70 hover:opacity-100 transition-opacity" />
-          <p>© {new Date().getFullYear()} TEKMEN REVOLUTION. Tous droits réservés.</p>
+          <p>© {new Date().getFullYear()} TEKMEN REVOLUTION. {t(translations.footer.rights)}</p>
         </div>
       </footer>
     </main>

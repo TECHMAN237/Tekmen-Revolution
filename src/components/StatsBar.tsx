@@ -1,13 +1,18 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-
-const stats = [
-  { value: "500+", label: "Projets Terminés" },
-  { value: "Expertise", label: "Multi-domaine" },
-  { value: "Support", label: "24/7" },
-];
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 export function StatsBar() {
+  const { t, lang } = useLanguage();
+
+  const stats = [
+    { value: "500+", label: t(translations.stats.completedProjects) },
+    { value: t(translations.stats.expertise), label: t(translations.stats.multiDomain) },
+    { value: t(translations.stats.support), label: "24/7" },
+  ];
+
+  const keywords = translations.stats.keywords[lang];
+
   return (
     <section className="relative py-12 sm:py-20 overflow-hidden">
       {/* Immersive Section Background Decor */}
@@ -50,12 +55,12 @@ export function StatsBar() {
             href="#contact" 
             className="w-full md:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-sm font-black text-white btn-primary-gradient whitespace-nowrap shadow-xl shadow-purple-500/20"
           >
-            LANCER VOTRE PROJET <ArrowRight className="w-5 h-5" />
+            {t(translations.stats.launchProject)} <ArrowRight className="w-5 h-5" />
           </motion.a>
         </motion.div>
 
         <div className="mt-16 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-muted-foreground/40 font-black uppercase tracking-[0.4em]">
-          {["Innovation", "Précision", "Design", "Performance"].map((w, i, arr) => (
+          {keywords.map((w, i, arr) => (
             <motion.span 
               key={w} 
               initial={{ opacity: 0, y: 10 }}

@@ -2,43 +2,32 @@ import { motion } from "framer-motion";
 import { Code2, Palette, Clapperboard, TrendingUp, ArrowRight, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { useLanguage, translations } from "../lib/LanguageContext";
 
-const services: { icon: LucideIcon; title: string; subtitle: string; description: string; href: string; emoji: string; valueProposition: string }[] = [
+const servicesMeta: { icon: LucideIcon; href: string; emoji: string; cardIdx: number }[] = [
   {
     icon: Palette,
-    title: "Graphic Design",
-    subtitle: "Identité Visuelle & Print",
-    description: "Des créations visuelles professionnelles qui valorisent votre image de marque.",
     href: "/services/graphic-design",
     emoji: "🎨",
-    valueProposition: "Transformez votre marque en une identité visuelle mémorable qui capte l'attention.",
+    cardIdx: 0,
   },
   {
     icon: Clapperboard,
-    title: "Montage Vidéo",
-    subtitle: "Production & Motion",
-    description: "Donnez vie à votre communication grâce à des vidéos engageantes.",
     href: "/services/montage-video",
     emoji: "🎬",
-    valueProposition: "Des contenus vidéo percutants qui convertissent et fidélisent votre audience.",
+    cardIdx: 1,
   },
   {
     icon: Code2,
-    title: "Développement Web & Mobile",
-    subtitle: "Sites & Applications",
-    description: "Des solutions numériques modernes conçues pour accélérer votre croissance.",
     href: "/services/developpement-web",
     emoji: "💻",
-    valueProposition: "Des plateformes performantes qui génèrent des résultats et vous démarquent.",
+    cardIdx: 2,
   },
   {
     icon: TrendingUp,
-    title: "Marketing Digital",
-    subtitle: "Stratégie & Acquisition",
-    description: "Développez votre visibilité et transformez votre audience en clients.",
     href: "/services/marketing-digital",
     emoji: "📈",
-    valueProposition: "Des stratégies data-driven qui boostent vos ventes et votre ROI.",
+    cardIdx: 3,
   },
 ];
 
@@ -48,11 +37,13 @@ function ServiceCard({
   isHovered,
   setHoveredIndex,
 }: {
-  s: (typeof services)[0];
+  s: { icon: LucideIcon; href: string; emoji: string; title: string; subtitle: string; valueProposition: string };
   i: number;
   isHovered: boolean;
   setHoveredIndex: (idx: number | null) => void;
 }) {
+  const { t } = useLanguage();
+
   return (
     <Link to={s.href as any}>
       <motion.div
@@ -141,7 +132,7 @@ function ServiceCard({
                 isHovered ? "text-purple-300" : "text-white/40"
               }`}
             >
-              <span className="text-xs font-bold uppercase tracking-wider">Découvrir le service</span>
+              <span className="text-xs font-bold uppercase tracking-wider">{t(translations.services.discoverService)}</span>
               <ArrowRight
                 className={`w-4 h-4 transition-transform duration-400 ${
                   isHovered ? "translate-x-2" : ""
@@ -157,6 +148,19 @@ function ServiceCard({
 
 export function Services() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const { t } = useLanguage();
+
+  // Build services data with translations
+  const services = servicesMeta.map((meta) => {
+    const card = translations.services.cards[meta.cardIdx];
+    return {
+      ...meta,
+      title: t(card.title),
+      subtitle: t(card.subtitle),
+      description: t(card.description),
+      valueProposition: t(card.valueProposition),
+    };
+  });
 
   return (
     <section id="services" className="relative py-24 sm:py-32 overflow-hidden" style={{ contain: "layout style" }}>
@@ -180,7 +184,7 @@ export function Services() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="font-display font-semibold tracking-tight text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-10 leading-[1.1]"
           >
-            Nos Services d'Expertise
+            {t(translations.services.title)}
           </motion.h2>
 
           <motion.p
@@ -190,7 +194,7 @@ export function Services() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-sm sm:text-base md:text-lg text-muted-foreground/70 max-w-3xl mx-auto font-light leading-relaxed"
           >
-            Chez TEKMEN REVOLUTION, nous combinons créativité, technique et stratégie pour vous offrir des solutions digitales qui marquent votre marque et génèrent des résultats concrets.
+            {t(translations.services.subtitle)}
           </motion.p>
         </div>
 
@@ -198,7 +202,7 @@ export function Services() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {services.map((s, i) => (
             <ServiceCard
-              key={s.title}
+              key={s.href}
               s={s}
               i={i}
               isHovered={hoveredIndex === i}
@@ -219,7 +223,7 @@ export function Services() {
             to="/services/graphic-design"
             className="inline-flex items-center gap-3 px-10 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-[0_0_40px_rgba(124,58,237,0.4)] hover:scale-105"
           >
-            Explorer nos solutions
+            {t(translations.services.exploreSolutions)}
             <ArrowRight className="w-5 h-5" />
           </Link>
         </motion.div>

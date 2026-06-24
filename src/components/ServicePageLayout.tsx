@@ -3,31 +3,21 @@ import { ArrowRight, Check, MessageCircle, Star, ChevronDown, ArrowLeft, type Lu
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import logoImg from "../../logo.png";
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 const PHONE_WA = "237697368251";
-
-const DEFAULT_WHATSAPP_MESSAGE = `Bonjour Tekmen Revolution 👋
-
-Je vous contacte concernant vos services.
-
-J'aimerais obtenir des informations, poser une question ou discuter d'un projet.
-
-Mon message :
-
----
-
-Merci et au plaisir d'échanger avec vous.`;
 
 function buildWhatsappUrl(message: string) {
   return `https://wa.me/${PHONE_WA}?text=${encodeURIComponent(message)}`;
 }
 
 function WhatsAppHint({ variant }: { variant: "devis" | "general" }) {
+  const { t } = useLanguage();
   return (
     <p className="text-[11px] sm:text-xs text-muted-foreground/75 font-light leading-relaxed mt-2">
       {variant === "devis"
-        ? "Une question, un projet ou besoin d'un devis ? Échangez directement avec notre équipe."
-        : "Nous répondons généralement en quelques heures."}
+        ? t(translations.serviceLayout.hintDevis)
+        : t(translations.serviceLayout.hintGeneral)}
     </p>
   );
 }
@@ -91,12 +81,12 @@ export interface ServicePageData {
   faq: FAQItem[];
 }
 
-/* ─── Nav Tabs Definition ─── */
-const navLinks = [
-  { label: "🎨 Graphic Design", href: "/services/graphic-design" },
-  { label: "🎬 Montage Vidéo", href: "/services/montage-video" },
-  { label: "💻 Développement", href: "/services/developpement-web" },
-  { label: "📈 Marketing Digital", href: "/services/marketing-digital" },
+/* ─── Nav Paths Definition ─── */
+const navPaths = [
+  { href: "/services/graphic-design", idx: 0 },
+  { href: "/services/montage-video", idx: 1 },
+  { href: "/services/developpement-web", idx: 2 },
+  { href: "/services/marketing-digital", idx: 3 },
 ];
 
 /* ─── Motion Fade-In Wrapper ─── */
@@ -252,6 +242,12 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
   const Icon = data.icon;
+  const { t } = useLanguage();
+
+  const defaultMsg = t(translations.serviceLayout.whatsappDefaultMsg);
+  const devisMsg = t(translations.serviceLayout.whatsappDevisMsg);
+  const cardMsg = t(translations.serviceLayout.whatsappCardMsg);
+  const planMsg = t(translations.serviceLayout.whatsappPlanMsg);
 
   return (
     <main className="relative min-h-screen text-foreground bg-[#0B0F19] overflow-x-hidden">
@@ -259,11 +255,11 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
       <Link
         to="/"
         hash="services"
-        aria-label="Retour à l'accueil (Services)"
+        aria-label={t(translations.serviceLayout.back)}
         className="fixed top-5 left-4 sm:top-6 sm:left-6 z-[60] inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs sm:text-sm font-semibold text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-all shadow-lg"
       >
         <ArrowLeft className="w-4 h-4" />
-        <span className="hidden sm:inline">Retour</span>
+        <span className="hidden sm:inline">{t(translations.serviceLayout.back)}</span>
       </Link>
 
       {/* ─── HEADER/NAVBAR ─── */}
@@ -276,8 +272,9 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center">
             <div className="flex items-center gap-1 p-1.5 rounded-2xl bg-white/[0.03] border border-white/5">
-              {navLinks.map((link) => {
+              {navPaths.map((link) => {
                 const isActive = currentPath === link.href;
+                const label = t(translations.serviceLayout.navLinks[link.idx]);
                 return (
                   <Link
                     key={link.href}
@@ -288,7 +285,7 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                         : "text-muted-foreground/70 hover:text-white hover:bg-white/[0.04]"
                     }`}
                   >
-                    {link.label}
+                    {label}
                   </Link>
                 );
               })}
@@ -301,7 +298,7 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
             hash="services"
             className="md:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
           >
-            Services
+            {t(translations.serviceLayout.services)}
           </Link>
         </div>
       </header>
@@ -351,19 +348,19 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto sm:max-w-none">
               <div className="text-center">
                 <a
-                  href={buildWhatsappUrl(DEFAULT_WHATSAPP_MESSAGE)}
+                  href={buildWhatsappUrl(`${defaultMsg}\n\n${devisMsg}`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all shadow-[0_0_30px_rgba(124,58,237,0.4)]"
                 >
-                  Demander un devis <ArrowRight className="w-4 h-4" />
+                  {t(translations.serviceLayout.requestQuote)} <ArrowRight className="w-4 h-4" />
                 </a>
                 <WhatsAppHint variant="devis" />
               </div>
 
               <div className="text-center">
                 <a
-                  href={buildWhatsappUrl(DEFAULT_WHATSAPP_MESSAGE)}
+                  href={buildWhatsappUrl(defaultMsg)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-white bg-white/[0.06] border border-white/10 hover:bg-white/10 transition-all"
@@ -381,8 +378,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
       <section className="relative py-24 bg-gradient-to-b from-transparent to-[#101524]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading
-            title="Pourquoi choisir ce service"
-            subtitle="Une approche expertes qui garantit des résultats exceptionnels."
+            title={t(translations.serviceLayout.whyChooseTitle)}
+            subtitle={t(translations.serviceLayout.whyChooseSubtitle)}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
@@ -412,8 +409,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
       <section className="relative py-24 bg-gradient-to-b from-[#101524] to-transparent">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
-            title="Notre processus de travail"
-            subtitle="Une méthodologie éprouvée en 5 étapes pour des résultats optimaux."
+            title={t(translations.serviceLayout.processTitle)}
+            subtitle={t(translations.serviceLayout.processSubtitle)}
           />
 
           <ProcessTimeline process={data.process} serviceTitle={data.title} />
@@ -424,8 +421,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
       <section className="relative py-24 bg-gradient-to-b from-transparent to-[#101524]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading
-            title="Nos prestations"
-            subtitle="Des solutions complètes adaptées à votre stratégie."
+            title={t(translations.serviceLayout.offeringsTitle)}
+            subtitle={t(translations.serviceLayout.offeringsSubtitle)}
           />
 
           <div className="space-y-12">
@@ -465,8 +462,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
       <section className="relative py-24 bg-gradient-to-b from-[#101524] to-transparent">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading
-            title="Nos réalisations"
-            subtitle="Des projets qui parlent de nos compétences et de nos succès clients."
+            title={t(translations.serviceLayout.achievementsTitle)}
+            subtitle={t(translations.serviceLayout.achievementsSubtitle)}
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -498,8 +495,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
       <section className="relative py-24 bg-gradient-to-b from-transparent to-[#101524]">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
-            title="Nos Tarifs"
-            subtitle="Des offres transparentes avec une valeur claire et mesurable."
+            title={t(translations.serviceLayout.pricingTitle)}
+            subtitle={t(translations.serviceLayout.pricingSubtitle)}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -524,29 +521,15 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                       <div className="font-display font-bold text-2xl sm:text-3xl text-white mb-6">
                         {card.price}
                       </div>
-                  <div className="flex flex-col gap-2">
-                      <a
-                        href={buildWhatsappUrl(`Bonjour Tekmen Revolution 👋
-
-Je vous contacte concernant vos services.
-
-J'aimerais obtenir des informations, poser une question ou discuter d'un projet.
-
-Mon message :
-
----
-
-Merci et au plaisir d'échanger avec vous.
-
-Mon message concernant :
-
-Devis — ${card.label}`)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border border-purple-500/30 hover:bg-purple-600/30 transition-all duration-300"
-                      >
-                        Demander un devis <ArrowRight className="w-4 h-4" />
-                      </a>
+                      <div className="flex flex-col gap-2">
+                        <a
+                          href={buildWhatsappUrl(`${defaultMsg}\n\n${cardMsg}${card.label}`)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border border-purple-500/30 hover:bg-purple-600/30 transition-all duration-300"
+                        >
+                          {t(translations.serviceLayout.requestQuote)} <ArrowRight className="w-4 h-4" />
+                        </a>
                         <WhatsAppHint variant="devis" />
                       </div>
                     </div>
@@ -573,8 +556,8 @@ Devis — ${card.label}`)}
       <section className="relative py-24 bg-gradient-to-b from-[#101524] to-transparent">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
-            title={data.subscriptionLabel || "Formules d'Abonnement"}
-            subtitle="Bénéficiez d'un accompagnement continu et de tarifs préférentiels."
+            title={data.subscriptionLabel || t(translations.serviceLayout.subscriptionTitle)}
+            subtitle={t(translations.serviceLayout.subscriptionSubtitle)}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
@@ -589,7 +572,7 @@ Devis — ${card.label}`)}
                 >
                   {plan.highlighted && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[10px] font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 tracking-wider uppercase shadow-[0_0_20px_rgba(124,58,237,0.4)]">
-                      Populaire
+                      {t(translations.serviceLayout.popular)}
                     </div>
                   )}
 
@@ -611,31 +594,17 @@ Devis — ${card.label}`)}
                   </ul>
 
                   <div className="flex flex-col gap-2">
-                        <a
-                          href={buildWhatsappUrl(`Bonjour Tekmen Revolution 👋
-
-Je vous contacte concernant vos services.
-
-J'aimerais obtenir des informations, poser une question ou discuter d'un projet.
-
-Mon message :
-
----
-
-Merci et au plaisir d'échanger avec vous.
-
-Mon message concernant :
-
-Formule — ${plan.name}`)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-[1.02] ${
-                            plan.highlighted
-                              ? "text-white bg-gradient-to-r from-purple-600 to-indigo-600 shadow-[0_0_25px_rgba(124,58,237,0.4)]"
-                              : "text-white bg-white/[0.06] border border-white/10 hover:bg-white/10"
-                          }`}
-                        >
-                      Souscrire <ArrowRight className="w-4 h-4" />
+                    <a
+                      href={buildWhatsappUrl(`${defaultMsg}\n\n${planMsg}${plan.name}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-[1.02] ${
+                        plan.highlighted
+                          ? "text-white bg-gradient-to-r from-purple-600 to-indigo-600 shadow-[0_0_25px_rgba(124,58,237,0.4)]"
+                          : "text-white bg-white/[0.06] border border-white/10 hover:bg-white/10"
+                      }`}
+                    >
+                      {t(translations.serviceLayout.subscribe)} <ArrowRight className="w-4 h-4" />
                     </a>
                     <WhatsAppHint variant="devis" />
                   </div>
@@ -650,8 +619,8 @@ Formule — ${plan.name}`)}
       <section className="relative py-24 bg-gradient-to-b from-transparent to-[#101524]">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
           <SectionHeading
-            title="Questions Fréquentes"
-            subtitle="Tout ce que vous devez savoir pour démarrer notre collaboration sereinement."
+            title={t(translations.serviceLayout.faqTitle)}
+            subtitle={t(translations.serviceLayout.faqSubtitle)}
           />
 
           <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 sm:p-10 space-y-2">
@@ -670,39 +639,37 @@ Formule — ${plan.name}`)}
         <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 text-center">
           <FadeIn>
             <h2 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl text-white mb-8 tracking-tight">
-              Prêt à développer votre{" "}
+              {t(translations.serviceLayout.readyToGrow)}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
-                présence digitale
-              </span>{" "}
-              ?
+                {t(translations.serviceLayout.digitalPresence)}
+              </span>
+              {t(translations.serviceLayout.readyToGrowSuffix)}
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground/75 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-              Nous accompagnons les entreprises, marques et entrepreneurs dans leur croissance digitale grâce à des solutions créatives et performantes.
+              {t(translations.serviceLayout.ctaDescription)}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto sm:max-w-none">
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto sm:max-w-none">
                 <div className="text-center">
                   <a
-                    href={buildWhatsappUrl(`${DEFAULT_WHATSAPP_MESSAGE}
-
-Je souhaite demander un devis gratuit.`)}
+                    href={buildWhatsappUrl(`${defaultMsg}\n\n${devisMsg}`)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-10 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all shadow-[0_0_40px_rgba(124,58,237,0.4)]"
                   >
-                    Demander un devis gratuit <ArrowRight className="w-5 h-5" />
+                    {t(translations.serviceLayout.requestFreeQuote)} <ArrowRight className="w-5 h-5" />
                   </a>
                   <WhatsAppHint variant="devis" />
                 </div>
 
                 <div className="text-center">
                   <a
-                    href={buildWhatsappUrl(DEFAULT_WHATSAPP_MESSAGE)}
+                    href={buildWhatsappUrl(defaultMsg)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-semibold text-white bg-white/[0.06] border border-white/10 hover:bg-white/10 transition-all"
                   >
-                    <MessageCircle className="w-5 h-5 text-emerald-400" /> Contacter sur WhatsApp
+                    <MessageCircle className="w-5 h-5 text-emerald-400" /> {t(translations.serviceLayout.contactWhatsApp)}
                   </a>
                   <WhatsAppHint variant="general" />
                 </div>
@@ -716,13 +683,13 @@ Je souhaite demander un devis gratuit.`)}
       <footer className="py-16 text-center text-xs text-muted-foreground border-t border-white/5 relative z-10 bg-[#0B0F19]">
         <div className="flex flex-col items-center gap-6">
           <img src={logoImg} alt="TEKMEN REVOLUTION" className="h-10 w-auto opacity-70 hover:opacity-100 transition-opacity" />
-          <p>© {new Date().getFullYear()} TEKMEN REVOLUTION. Tous droits réservés.</p>
+          <p>© {new Date().getFullYear()} TEKMEN REVOLUTION. {t(translations.footer.rights)}</p>
         </div>
       </footer>
 
       {/* ─── FLOATING WHATSAPP BUTTON ─── */}
       <a
-        href={buildWhatsappUrl(DEFAULT_WHATSAPP_MESSAGE)}
+        href={buildWhatsappUrl(defaultMsg)}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-[0_4px_25px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform duration-300"

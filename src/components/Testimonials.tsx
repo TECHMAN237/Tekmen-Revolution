@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, Quote, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 /* ──────────────────────────────────────────────
    TEMPLATE DATA — Personnalisez ici vos témoignages
@@ -123,16 +124,6 @@ function getBadgeClass(projectType: string) {
   return badgeColors[projectType] || "from-purple-500/20 to-indigo-500/20 border-purple-500/30 text-purple-300";
 }
 
-/* ──────────────────────────────────────────────
-   Stats
-   ────────────────────────────────────────────── */
-const stats = [
-  { value: "500+", label: "Projets Livrés" },
-  { value: "98%", label: "Clients Satisfaits" },
-  { value: "5.0", label: "Note Moyenne" },
-  { value: "24/7", label: "Support Client" },
-];
-
 /* ══════════════════════════════════════════════
    MAIN COMPONENT
    ══════════════════════════════════════════════ */
@@ -141,6 +132,15 @@ export function Testimonials() {
   const perPage = 3;
   const totalPages = Math.ceil(testimonials.length / perPage);
   const visible = testimonials.slice(activePage * perPage, activePage * perPage + perPage);
+  const { t } = useLanguage();
+
+  /* ── Stats ── */
+  const stats = [
+    { value: "500+", label: t(translations.testimonials.stats.deliveredProjects) },
+    { value: "98%", label: t(translations.testimonials.stats.satisfiedClients) },
+    { value: "5.0", label: t(translations.testimonials.stats.averageRating) },
+    { value: "24/7", label: t(translations.testimonials.stats.customerSupport) },
+  ];
 
   return (
     <section
@@ -168,19 +168,19 @@ export function Testimonials() {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-[10px] font-black tracking-[0.2em] text-purple-400 uppercase mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(167,139,250,1)] animate-pulse" />
-            Témoignages
+            {t(translations.testimonials.badge)}
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-[1.05] tracking-tight">
-            Ce que nos{" "}
+            {t(translations.testimonials.titlePrefix)}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-400 to-[#28B6FF]">
-              clients
+              {t(translations.testimonials.titleHighlight)}
             </span>{" "}
-            disent
+            {t(translations.testimonials.titleSuffix)}
           </h2>
 
           <p className="mt-6 text-base sm:text-lg text-muted-foreground/80 max-w-2xl mx-auto leading-relaxed font-light">
-            Découvrez les retours de ceux qui nous ont fait confiance pour transformer leur vision en réalité digitale.
+            {t(translations.testimonials.subtitle)}
           </p>
         </motion.div>
 
@@ -396,10 +396,10 @@ export function Testimonials() {
 
             <div className="relative z-10">
               <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-4">
-                Prêt à rejoindre nos clients satisfaits ?
+                {t(translations.testimonials.ctaTitle)}
               </h3>
               <p className="text-muted-foreground/70 text-sm sm:text-base max-w-xl mx-auto mb-8 font-light">
-                Discutons de votre projet et découvrez comment TEKMEN REVOLUTION peut transformer votre vision en réalité.
+                {t(translations.testimonials.ctaSubtitle)}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <motion.a
@@ -408,7 +408,7 @@ export function Testimonials() {
                   href="/"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-sm font-bold text-white btn-primary-gradient shadow-xl shadow-purple-500/20"
                 >
-                  Lancer un Projet
+                  {t(translations.testimonials.startProject)}
                   <ArrowRight className="w-4 h-4" />
                 </motion.a>
                 <motion.a
@@ -417,7 +417,7 @@ export function Testimonials() {
                   href="/"
                   className="inline-flex items-center justify-center px-8 py-4 rounded-2xl text-sm font-bold text-white border border-white/10 bg-white/5 hover:bg-white/10 transition-all"
                 >
-                  Retour à l'accueil
+                  {t(translations.testimonials.backHome)}
                 </motion.a>
               </div>
             </div>

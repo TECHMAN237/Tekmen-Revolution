@@ -2,18 +2,20 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight, Cpu } from "lucide-react";
 import logoImg from "../../logo.png";
-
-const links = [
-  { label: "Accueil", href: "#home" },
-  { label: "À propos", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Témoignages", href: "#testimonials" },
-];
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { t } = useLanguage();
+
+  const links = [
+    { label: t(translations.nav.home), href: "#home" },
+    { label: t(translations.nav.about), href: "#about" },
+    { label: t(translations.nav.services), href: "#services" },
+    { label: t(translations.nav.portfolio), href: "#portfolio" },
+    { label: t(translations.nav.testimonials), href: "#testimonials" },
+  ];
 
   useEffect(() => {
     let ticking = false;
@@ -76,7 +78,7 @@ export function Navbar() {
               href="#contact"
               className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white btn-primary-gradient transition-all hover:scale-105"
             >
-              Lancer un Projet
+              {t(translations.nav.cta)}
               <ArrowRight className="w-4 h-4" />
             </a>
             <button
@@ -113,7 +115,7 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   className="sm:hidden mt-2 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-medium text-white btn-primary-gradient"
                 >
-                  Lancer un Projet <ArrowRight className="w-4 h-4" />
+                  {t(translations.nav.cta)} <ArrowRight className="w-4 h-4" />
                 </a>
               </nav>
             </motion.div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Linkedin, Github, Phone, MessageSquare, ArrowRight, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 const SiLinkedin = (props: any) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -70,18 +71,19 @@ export function Contact() {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<string[]>([]);
+  const { t } = useLanguage();
 
   // Client-side validation
   function validateForm(): string[] {
     const errors: string[] = [];
     if (!name.trim() || name.trim().length < 2) {
-      errors.push("Full name is required (minimum 2 characters).");
+      errors.push(t(translations.contact.errorNameRequired));
     }
     if (!email.trim() || !EMAIL_REGEX.test(email.trim())) {
-      errors.push("A valid email address is required.");
+      errors.push(t(translations.contact.errorEmailRequired));
     }
     if (!message.trim() || message.trim().length < 10) {
-      errors.push("Project details are required (minimum 10 characters).");
+      errors.push(t(translations.contact.errorMessageRequired));
     }
     return errors;
   }
@@ -120,7 +122,7 @@ export function Contact() {
       if (response.ok && data.success) {
         // 3. Success — reset form
         setStatus("success");
-        setStatusMessage("Message sent successfully! ✨");
+        setStatusMessage(t(translations.contact.successMessage));
         setName("");
         setEmail("");
         setMessage("");
@@ -134,13 +136,13 @@ export function Contact() {
         // 4. Server validation errors or failure
         setStatus("error");
         setStatusMessage(
-          data.errors?.[0] || data.error || "Failed to send message. Please try again."
+          data.errors?.[0] || data.error || t(translations.contact.errorDefault)
         );
       }
     } catch (err) {
       // 5. Network error
       setStatus("error");
-      setStatusMessage("Network error. Please check your connection and try again.");
+      setStatusMessage(t(translations.contact.errorNetwork));
     }
   }
 
@@ -163,7 +165,7 @@ export function Contact() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-white mb-6 tracking-tight"
           >
-            Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-600">Touch</span>
+            {t(translations.contact.title)}<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-600">{t(translations.contact.titleHighlight)}</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -172,7 +174,7 @@ export function Contact() {
             transition={{ delay: 0.2, duration: 0.7 }}
             className="text-muted-foreground/70 text-lg sm:text-xl max-w-2xl mx-auto font-light leading-relaxed"
           >
-            Have a project in mind? Let's talk about it.
+            {t(translations.contact.subtitle)}
           </motion.p>
         </div>
 
@@ -199,37 +201,37 @@ export function Contact() {
               />
 
               <div className="space-y-2.5">
-                <label htmlFor="contact-name" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">Full Name</label>
+                <label htmlFor="contact-name" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">{t(translations.contact.labelName)}</label>
                 <input 
                   type="text" 
                   id="contact-name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Your Name"
+                  placeholder={t(translations.contact.placeholderName)}
                   disabled={status === "loading"}
                   className="w-full px-7 py-5 rounded-2xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/40 focus:bg-white/[0.06] transition-all duration-300 disabled:opacity-50"
                 />
               </div>
               <div className="space-y-2.5">
-                <label htmlFor="contact-email" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">Email Address</label>
+                <label htmlFor="contact-email" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">{t(translations.contact.labelEmail)}</label>
                 <input 
                   type="email" 
                   id="contact-email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
+                  placeholder={t(translations.contact.placeholderEmail)}
                   disabled={status === "loading"}
                   className="w-full px-7 py-5 rounded-2xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/40 focus:bg-white/[0.06] transition-all duration-300 disabled:opacity-50"
                 />
               </div>
               <div className="space-y-2.5">
-                <label htmlFor="contact-message" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">Project Details</label>
+                <label htmlFor="contact-message" className="text-xs font-black tracking-widest text-white/50 ml-2 uppercase">{t(translations.contact.labelMessage)}</label>
                 <textarea 
                   id="contact-message"
                   rows={4}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Tell me about your project..."
+                  placeholder={t(translations.contact.placeholderMessage)}
                   disabled={status === "loading"}
                   className="w-full px-7 py-5 rounded-2xl bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/40 focus:bg-white/[0.06] transition-all duration-300 resize-none disabled:opacity-50"
                 />
@@ -268,17 +270,17 @@ export function Contact() {
               >
                 {status === "loading" ? (
                   <>
-                    SENDING...
+                    {t(translations.contact.sending)}
                     <Loader2 className="w-5 h-5 animate-spin" />
                   </>
                 ) : status === "success" ? (
                   <>
-                    MESSAGE SENT ✓
+                    {t(translations.contact.messageSent)}
                     <CheckCircle className="w-5 h-5" />
                   </>
                 ) : (
                   <>
-                    SEND MESSAGE
+                    {t(translations.contact.sendMessage)}
                     <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
                   </>
                 )}
@@ -329,8 +331,8 @@ export function Contact() {
                   <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400 group-hover:translate-x-1 transition-transform" />
                 </div>
                 <div>
-                  <h4 className="text-base sm:text-lg text-white font-bold tracking-tight">Prêt à démarrer pour une meilleure expérience ?</h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground/70 font-light mt-1">Parlons de votre prochain grand projet.</p>
+                  <h4 className="text-base sm:text-lg text-white font-bold tracking-tight">{t(translations.contact.readyToStart)}</h4>
+                  <p className="text-xs sm:text-sm text-muted-foreground/70 font-light mt-1">{t(translations.contact.talkAboutProject)}</p>
                 </div>
               </div>
               <div className="text-[10px] font-black text-cyan-500/40 uppercase tracking-[0.4em] self-center">

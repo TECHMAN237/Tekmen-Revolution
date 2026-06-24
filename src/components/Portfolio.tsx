@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ExternalLink, Layout, Clapperboard, Palette, Code2, ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
+import { useLanguage, translations } from "../lib/LanguageContext";
 
 // 1. Graphic Design Images
 const graphicImagesRecord = import.meta.glob('../../graphic_designs/*.{png,jpg,jpeg,webp}', { eager: true });
@@ -35,37 +36,37 @@ const fbLinks = [
   "https://www.facebook.com/share/v/1BFhorxFDU/"
 ];
 
-// 3. Web Dev Projects
-const devProjects = [
+// 3. Web Dev Projects (titles and links are language-independent, only desc changes)
+const devProjectsBase = [
   {
     title: "TECHMAN PORTFOLIO",
-    desc: "Site vitrine personnel et portfolio tech.",
     link: "https://myportfolio-alpha-pearl.vercel.app/",
-    tags: ["React", "Tailwind", "Vercel", "Portfolio"]
+    tags: ["React", "Tailwind", "Vercel", "Portfolio"],
+    descIdx: 0,
   },
   {
     title: "CLIENT PORTFOLIO",
-    desc: "Un site portfolio de haute qualité livré à un client (Apollos).",
     link: "https://portfolio-apollos.vercel.app/",
-    tags: ["Next.js", "Framer Motion", "UI/UX"]
+    tags: ["Next.js", "Framer Motion", "UI/UX"],
+    descIdx: 1,
   },
   {
     title: "UNIVERSITY CLONE WEBSITE",
-    desc: "Application web supplémentaire pour l'Université de Buea avec plus de fonctionnalités.",
     link: "https://student-portal-seven-nu.vercel.app/",
-    tags: ["React", "API", "Dashboard", "Education"]
+    tags: ["React", "API", "Dashboard", "Education"],
+    descIdx: 2,
   },
   {
     title: "ARCHITECTURE WEBSITE",
-    desc: "Un site vitrine immersif livré pour Rock Attitude.",
     link: "https://rock-attitude-website.vercel.app/",
-    tags: ["Three.js", "React", "Architecture"]
+    tags: ["Three.js", "React", "Architecture"],
+    descIdx: 3,
   },
   {
     title: "SAFECHILD",
-    desc: "Un projet conçu pour réduire le taux d'enfants disparus dans notre communauté.",
     link: "/safechild-access",
-    tags: ["Fullstack", "Social Impact", "Auth"]
+    tags: ["Fullstack", "Social Impact", "Auth"],
+    descIdx: 4,
   }
 ];
 
@@ -73,10 +74,17 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
   const [activeTab, setActiveTab] = useState<'graphic' | 'video' | 'dev'>('graphic');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Build translated dev projects
+  const devProjects = devProjectsBase.map((p) => ({
+    ...p,
+    desc: t(translations.portfolio.devProjects[p.descIdx].desc),
+  }));
 
   const tabs = [
     { id: 'graphic', label: 'Graphic Design', icon: Palette },
@@ -89,8 +97,6 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
   const displayYt = isFullPage ? ytVideos : ytVideos.slice(0, 3);
   const displayFb = isFullPage ? fbLinks : fbLinks.slice(0, 3);
   const displayDev = isFullPage ? devProjects : devProjects.slice(0, 6);
-
-  // Remove the nested Modal component, we will inline it below
 
   return (
     <section id="portfolio" className={`relative ${isFullPage ? 'py-16 sm:py-24' : 'py-24 sm:py-36'}`}>
@@ -112,7 +118,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
               transition={{ duration: 0.8 }}
               className="font-display font-semibold tracking-tight text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6"
             >
-              Nos <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">Réalisations</span>
+              {t(translations.portfolio.title)}<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">{t(translations.portfolio.titleHighlight)}</span>
             </motion.h2>
             
             <motion.p
@@ -122,7 +128,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-sm sm:text-base text-muted-foreground/80 max-w-2xl mx-auto font-light"
             >
-              Explorez notre portfolio qui démontre notre expertise en design graphique, montage vidéo et développement logiciel.
+              {t(translations.portfolio.subtitle)}
             </motion.p>
           </div>
         )}
@@ -192,7 +198,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-6">
                         <p className="text-white text-xs sm:text-sm font-medium flex items-center gap-2">
                           <Layout className="w-4 h-4 text-cyan-400" />
-                          Voir le design
+                          {t(translations.portfolio.viewDesign)}
                         </p>
                       </div>
                     </motion.div>
@@ -269,7 +275,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
                           ))}
                         </div>
                         <div className="flex items-center text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
-                          Voir le projet <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                          {t(translations.portfolio.viewProject)} <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </motion.a>
@@ -308,7 +314,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-6">
                           <p className="text-white text-xs sm:text-sm font-medium flex items-center gap-2">
                             <Layout className="w-4 h-4 text-cyan-400" />
-                            Voir le design
+                            {t(translations.portfolio.viewDesign)}
                           </p>
                         </div>
                       </motion.div>
@@ -319,7 +325,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
                       href="/portfolio#graphic-design"
                       className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-400/30 transition-all duration-300"
                     >
-                      Voir tous les designs graphiques <ArrowRight className="w-4 h-4" />
+                      {t(translations.portfolio.viewAllGraphic)} <ArrowRight className="w-4 h-4" />
                     </a>
                   </div>
                 </motion.div>
@@ -366,7 +372,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
                       href="/portfolio#video-editing"
                       className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-400/30 transition-all duration-300"
                     >
-                      Voir tous les montages vidéos <ArrowRight className="w-4 h-4" />
+                      {t(translations.portfolio.viewAllVideo)} <ArrowRight className="w-4 h-4" />
                     </a>
                   </div>
                 </motion.div>
@@ -413,7 +419,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
                             ))}
                           </div>
                           <div className="flex items-center text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
-                            Voir le projet <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                            {t(translations.portfolio.viewProject)} <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                           </div>
                         </div>
                       </motion.a>
@@ -424,7 +430,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
                       href="/portfolio#web-dev"
                       className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-400/30 transition-all duration-300"
                     >
-                      Voir tous les projets web <ArrowRight className="w-4 h-4" />
+                      {t(translations.portfolio.viewAllWeb)} <ArrowRight className="w-4 h-4" />
                     </a>
                   </div>
                 </motion.div>
