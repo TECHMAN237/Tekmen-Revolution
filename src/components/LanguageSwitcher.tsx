@@ -16,7 +16,7 @@ export function LanguageSwitcher() {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay: 1.2, duration: 0.5, ease: "easeOut" }}
       onClick={toggleLanguage}
-      className="fixed bottom-6 right-6 z-[60] group"
+      className="fixed bottom-6 left-6 md:left-auto md:right-6 z-[60] group"
       aria-label={`Switch to ${lang === "en" ? "French" : "English"}`}
       id="language-switcher"
     >
