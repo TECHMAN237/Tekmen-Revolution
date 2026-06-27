@@ -692,7 +692,7 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
         href={buildWhatsappUrl(defaultMsg)}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-[0_4px_25px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform duration-300"
+        className="fixed bottom-6 right-6 md:left-6 md:right-auto z-50 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-[0_4px_25px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform duration-300"
         aria-label="WhatsApp"
       >
         <MessageCircle className="w-6 h-6 text-white" />
