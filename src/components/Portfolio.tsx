@@ -8,17 +8,153 @@ import { useLanguage, translations } from "../lib/LanguageContext";
 
 // 1. Graphic Design Images
 const graphicImagesRecord = import.meta.glob('../../graphic_designs/*.{png,jpg,jpeg,webp}', { eager: true });
-const images = Object.keys(graphicImagesRecord).sort((a, b) => {
-  const getNum = (str: string) => {
-    const base = str.split('/').pop() || '';
-    const match = base.match(/^(\d+)/);
-    return match ? parseInt(match[1], 10) : 999999;
-  };
-  const numA = getNum(a);
-  const numB = getNum(b);
-  if (numA !== numB) return numA - numB;
-  return a.localeCompare(b);
-}).map(key => (graphicImagesRecord[key] as { default: string }).default);
+
+function graphicFileName(globKey: string) {
+  const raw = globKey.split(/[/\\]/).pop() || "";
+  try {
+    return decodeURIComponent(raw);
+  } catch {
+    return raw;
+  }
+}
+
+function exactNumericStem(fileName: string): number | null {
+  const stem = fileName.replace(/\.[^.]+$/, "");
+  return /^\d+$/.test(stem) ? Number(stem) : null;
+}
+
+/** Positions 1–9 are locked to files whose stem is exactly 1…9 (never 10, 11, 1_studio, etc.). */
+const LOCKED_FIRST_STEMS = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+
+/** Aesthetic mix of remaining + new visuals, starting at gallery position 10. */
+const GRAPHIC_REST_ORDER = [
+  "nouveau 1.png",
+  "35.jpg",
+  "1_presence online.jpg",
+  "34.jpg",
+  "1_service video editing.jpg",
+  "10.png",
+  "Etiquette  yayourt0.5LO.png",
+  "40.jpg",
+  "visuel 4.jpg",
+  "eclipse blanc.png",
+  "28.png",
+  "1_Mothers Days.jpg",
+  "22.jpg",
+  "ANANAS DANIELLE.png",
+  "26.jpg",
+  "visuel 1.jpg",
+  "39.jpg",
+  "jonathan BIRTHDAY.jpg",
+  "pascal 3.png",
+  "FINAL FRONT.png",
+  "visuel 8.jpg",
+  "37.jpg",
+  "PUB 2.jpg",
+  "19.jpg",
+  "Visuel 11.jpg",
+  "LOGO PRINCIPALE.png",
+  "mjn.png",
+  "BAOBAB DANIE.png",
+  "visuel 2.jpg",
+  "41.jpg",
+  "1_website services.jpg",
+  "31.png",
+  "visuel 17.jpg",
+  "WELCOME TO NOVEMBER 2.jpg",
+  "1_billet 2.jpg",
+  "le vrai ndem4.jpg",
+  "36.jpg",
+  "Visuel 10.jpg",
+  "Etiquette  berger.png",
+  "16.jpg",
+  "foumban.jpg",
+  "visuel 19.jpg",
+  "38.jpg",
+  "1_Groupe 1.jpg",
+  "SALIM.png",
+  "visuel 5.jpg",
+  "1_studio.jpg",
+  "21.jpg",
+  "BANDEROLE JZ L.jpg",
+  "Visuel 13.jpg",
+  "25.jpg",
+  "multi clone.jpg",
+  "24.jpg",
+  "visuel 6.jpg",
+  "27.jpg",
+  "1_20 Mai fete NAtionale.jpg",
+  "20.jpg",
+  "visuel 12.jpg",
+  "1k linkedin.jpg",
+  "13.jpg",
+  "stephane 2.png",
+  "14.jpg",
+  "visuel 3.jpg",
+  "17.jpg",
+  "EMMA BIRTHDAY1.jpg",
+  "32.jpg",
+  "visuel 7.jpg",
+  "15.jpg",
+  "pub graphism2.jpg",
+  "FINAL.png",
+  "23.jpg",
+  "Visuel 15.jpg",
+  "1_flyer service.jpg",
+  "18.jpg",
+  "pub3 - Copy.png",
+  "LED LIGHT SMARTPHONE - Copie.jpg",
+  "11.png",
+  "Visuel 16.jpg",
+  "1_asw hack3.jpg",
+  "43.jpg",
+  "cbc flyer.jpg",
+  "33.jpg",
+  "nouveau 2.jpg",
+  "cbc10.jpg",
+  "October welcome25.jpg",
+  "29.png",
+  "suit.jpg",
+  "42.jpg",
+  "Sans titre-1.jpg",
+  "30.jpg",
+  "bissap danie.png",
+  "techman happychristmas.jpg",
+  "12.jpg",
+  "a805b3ae-8bf7-41f5-a451-081779ff7686.png",
+  "WhatsApp Image 2026-05-31 at 09.30.25.jpeg",
+] as const;
+
+const graphicSrcByFileName = new Map(
+  Object.entries(graphicImagesRecord).map(([key, mod]) => [
+    graphicFileName(key),
+    (mod as { default: string }).default,
+  ]),
+);
+
+const usedGraphicFiles = new Set<string>();
+const lockedGraphicImages = LOCKED_FIRST_STEMS.map((stem) => {
+  const match = [...graphicSrcByFileName.entries()].find(
+    ([name]) => exactNumericStem(name) === stem,
+  );
+  if (!match) return null;
+  usedGraphicFiles.add(match[0]);
+  return match[1];
+}).filter((src): src is string => Boolean(src));
+
+const restGraphicImages = [
+  ...GRAPHIC_REST_ORDER.filter((name) => graphicSrcByFileName.has(name) && !usedGraphicFiles.has(name)).map(
+    (name) => {
+      usedGraphicFiles.add(name);
+      return graphicSrcByFileName.get(name)!;
+    },
+  ),
+  ...[...graphicSrcByFileName.entries()]
+    .filter(([name]) => !usedGraphicFiles.has(name))
+    .map(([, src]) => src),
+];
+
+const images = [...lockedGraphicImages, ...restGraphicImages];
 
 // 2. Video Links
 const ytVideos = [
@@ -38,6 +174,12 @@ const fbLinks = [
 
 // 3. Web Dev Projects (titles and links are language-independent, only desc changes)
 const devProjectsBase = [
+  {
+    title: "XENA AI",
+    link: "https://nexa-ai-2.vercel.app/",
+    tags: ["React", "Tailwind CSS", "API", "Web Speech API", "AI Integration"],
+    descIdx: 5,
+  },
   {
     title: "TECHMAN PORTFOLIO",
     link: "https://myportfolio-alpha-pearl.vercel.app/",

@@ -159,6 +159,12 @@ export const translations = {
       {
         desc: { en: "A project designed to reduce the rate of missing children in our community.", fr: "Un projet conçu pour réduire le taux d'enfants disparus dans notre communauté." },
       },
+      {
+        desc: {
+          en: "An AI-powered personal assistant that helps you organize your day, reminding you of essential tasks using voice synthesis, conversational AI, and speech recognition.",
+          fr: "Un assistant personnel alimenté par l'IA qui vous aide à organiser votre journée, en vous rappelant vos tâches essentielles via la synthèse vocale, l'IA conversationnelle et la reconnaissance vocale."
+        },
+      },
     ],
   },
 
