@@ -8,6 +8,8 @@ import {
   Palette,
   Code2,
   ArrowRight,
+  Maximize2,
+  X,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
@@ -38,6 +40,7 @@ const LOCKED_FIRST_STEMS = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 
 /** Aesthetic mix of remaining + new visuals, starting at gallery position 10. */
 const GRAPHIC_REST_ORDER = [
+  "WhatsApp Image 2026-05-31 at 09.30.25.jpeg",
   "nouveau 1.png",
   "35.jpg",
   "1_presence online.jpg",
@@ -132,7 +135,6 @@ const GRAPHIC_REST_ORDER = [
   "techman happychristmas.jpg",
   "12.jpg",
   "a805b3ae-8bf7-41f5-a451-081779ff7686.png",
-  "WhatsApp Image 2026-05-31 at 09.30.25.jpeg",
 ] as const;
 
 const graphicSrcByFileName = new Map(
@@ -174,13 +176,20 @@ export interface VideoItem {
   isShort?: boolean;
 }
 
-export interface FbVideoItem {
-  url: string;
-  title: string;
-}
-
 const ytVideos: VideoItem[] = [
-  // ── Prioritaires (Nouveaux ajouts) ──
+  // ── Top Prioritaires selon vos consignes ──
+  {
+    id: "QQvrrMJxP-A",
+    title: "Montage Vidéo Client",
+    url: "https://youtu.be/QQvrrMJxP-A",
+    isShort: false,
+  },
+  {
+    id: "zjveOMAtYW8",
+    title: "Home Joy Déco",
+    url: "https://youtube.com/shorts/zjveOMAtYW8?feature=share",
+    isShort: true,
+  },
   {
     id: "Q9rAgmzJi4o",
     title: "Défilé Miss",
@@ -188,11 +197,37 @@ const ytVideos: VideoItem[] = [
     isShort: true,
   },
   {
-    id: "QQvrrMJxP-A",
-    title: "Montage Vidéo Client",
-    url: "https://youtu.be/QQvrrMJxP-A",
+    id: "YFLfpsMxk4M",
+    title: "Les Déplacements à Bosco",
+    url: "https://youtu.be/YFLfpsMxk4M",
     isShort: false,
   },
+  {
+    id: "R7Bj7XHH3ts",
+    title: "PowerPoint Presentation",
+    url: "https://youtu.be/R7Bj7XHH3ts",
+    isShort: false,
+  },
+  {
+    id: "Gng_42rSYEE",
+    title: "Miss Nuit",
+    url: "https://youtube.com/shorts/Gng_42rSYEE?feature=share",
+    isShort: true,
+  },
+  // ── Nouveaux ajouts ──
+  {
+    id: "X2ggkh9YFS0",
+    title: "Spot Publicitaire — Pub 2",
+    url: "https://youtube.com/shorts/X2ggkh9YFS0?feature=share",
+    isShort: true,
+  },
+  {
+    id: "00kv7JwkqcA",
+    title: "Project Raydar",
+    url: "https://youtube.com/shorts/00kv7JwkqcA?feature=share",
+    isShort: true,
+  },
+  // ── Réalisations portfolio ──
   {
     id: "UxN4O8d2kFg",
     title: "SMART CHILD SAFETY ECOSYSTEM",
@@ -212,18 +247,11 @@ const ytVideos: VideoItem[] = [
     isShort: true,
   },
   {
-    id: "YFLfpsMxk4M",
-    title: "Les Déplacements à Bosco",
-    url: "https://youtu.be/YFLfpsMxk4M",
-    isShort: false,
-  },
-  {
     id: "-_4H3XMA7EM",
     title: "Price of Silence 1",
     url: "https://youtube.com/shorts/-_4H3XMA7EM?feature=share",
     isShort: true,
   },
-  // ── Autres réalisations antérieures ──
   {
     id: "SWgAKGH0WhA",
     title: "Spot Publicitaire — Pub 1",
@@ -256,33 +284,22 @@ const ytVideos: VideoItem[] = [
   },
 ];
 
-const fbLinks: FbVideoItem[] = [
-  {
-    url: "https://www.facebook.com/share/r/18WN12aUyo/",
-    title: "Reel Facebook — Montage Dynamique",
-  },
-  {
-    url: "https://www.facebook.com/share/v/1DaWbNEpsP/",
-    title: "Vidéo Facebook — Projet Visuel",
-  },
-  {
-    url: "https://www.facebook.com/share/v/1FX61ojhpm/",
-    title: "Vidéo Facebook — Création Digitale",
-  },
-  {
-    url: "https://www.facebook.com/share/v/1BFhorxFDU/",
-    title: "Vidéo Facebook — Showcase Réalisations",
-  },
-];
-
-function VideoCard({ video, index }: { video: VideoItem; index: number }) {
+function VideoCard({
+  video,
+  index,
+  onEnlarge,
+}: {
+  video: VideoItem;
+  index: number;
+  onEnlarge: (video: VideoItem) => void;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "50px" }}
       transition={{ duration: 0.4, delay: (index % 6) * 0.05 }}
-      className="group flex flex-col rounded-2xl overflow-hidden bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-cyan-400/40 transition-all duration-300 shadow-lg hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+      className="group relative flex flex-col rounded-2xl overflow-hidden bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-cyan-400/40 transition-all duration-300 shadow-lg hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
     >
       <div className="relative w-full aspect-video overflow-hidden bg-black/80">
         <iframe
@@ -293,7 +310,20 @@ function VideoCard({ video, index }: { video: VideoItem; index: number }) {
           allowFullScreen
           loading="lazy"
         />
+
+        {/* Bouton rapide d'agrandissement en haut à droite du cadre */}
+        <button
+          type="button"
+          onClick={() => onEnlarge(video)}
+          className="absolute top-2.5 right-2.5 z-10 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-black/80 hover:bg-cyan-500 text-white hover:text-black border border-white/20 hover:border-cyan-400 text-xs font-medium backdrop-blur-md shadow-lg transition-all duration-200 hover:scale-105"
+          title="Agrandir le cadre sur le site"
+          aria-label="Agrandir le cadre"
+        >
+          <Maximize2 className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Agrandir</span>
+        </button>
       </div>
+
       <div className="p-4 sm:p-5 flex items-start justify-between gap-3 border-t border-white/5 bg-black/40 flex-grow">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 mb-1.5">
@@ -309,71 +339,35 @@ function VideoCard({ video, index }: { video: VideoItem; index: number }) {
             </span>
           </div>
           <h4
-            className="text-sm sm:text-base font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-2 leading-snug"
-            title={video.title}
+            className="text-sm sm:text-base font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-2 leading-snug cursor-pointer"
+            title={`${video.title} (cliquez pour agrandir)`}
+            onClick={() => onEnlarge(video)}
           >
             {video.title}
           </h4>
         </div>
-        <a
-          href={video.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-muted-foreground hover:text-white transition-all flex-shrink-0 mt-0.5 group/link"
-          title="Regarder sur YouTube"
-        >
-          <ExternalLink className="w-4 h-4 group-hover/link:text-cyan-400 group-hover/link:scale-110 transition-transform" />
-        </a>
-      </div>
-    </motion.div>
-  );
-}
 
-function FbVideoCard({ fb, index }: { fb: FbVideoItem; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "50px" }}
-      transition={{ duration: 0.4, delay: (index % 6) * 0.05 }}
-      className="group flex flex-col rounded-2xl overflow-hidden bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-cyan-400/40 transition-all duration-300 shadow-lg max-w-[320px] mx-auto w-full"
-    >
-      <div className="relative w-full aspect-[9/16] overflow-hidden bg-black/80 flex items-center justify-center">
-        <iframe
-          src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(fb.url)}&show_text=false`}
-          title={fb.title}
-          className="w-full h-full absolute inset-0"
-          style={{ border: "none", overflow: "hidden" }}
-          scrolling="no"
-          frameBorder={0}
-          allowFullScreen={true}
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-          loading="lazy"
-        />
-      </div>
-      <div className="p-4 flex items-start justify-between gap-3 border-t border-white/5 bg-black/40">
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/30">
-              Facebook Reel
-            </span>
-          </div>
-          <h4
-            className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-2 leading-snug"
-            title={fb.title}
+        <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
+          <button
+            type="button"
+            onClick={() => onEnlarge(video)}
+            className="p-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 text-cyan-400 border border-cyan-500/30 transition-all hover:scale-105"
+            title="Agrandir le cadre sur le site"
+            aria-label="Agrandir la vidéo"
           >
-            {fb.title}
-          </h4>
+            <Maximize2 className="w-4 h-4" />
+          </button>
+          <a
+            href={video.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-muted-foreground hover:text-white transition-all hover:scale-105"
+            title="Ouvrir sur YouTube"
+            aria-label="Ouvrir sur YouTube"
+          >
+            <ExternalLink className="w-4 h-4" />
+          </a>
         </div>
-        <a
-          href={fb.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-muted-foreground hover:text-white transition-all flex-shrink-0 mt-0.5 group/link"
-          title="Regarder sur Facebook"
-        >
-          <ExternalLink className="w-4 h-4 group-hover/link:text-cyan-400 group-hover/link:scale-110 transition-transform" />
-        </a>
       </div>
     </motion.div>
   );
@@ -424,11 +418,20 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
     "graphic",
   );
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
   const [mounted, setMounted] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {
     setMounted(true);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedImage(null);
+        setSelectedVideo(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   // Build translated dev projects
@@ -443,10 +446,9 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
     { id: "dev", label: "Tech & Web", icon: Code2 },
   ] as const;
 
-  const displayImages = isFullPage ? images : images.slice(0, 6);
-  // Show 7 priority YouTube videos (+ 3 FB) in home tab preview, or all on full page
-  const displayYt = isFullPage ? ytVideos : ytVideos.slice(0, 7);
-  const displayFb = isFullPage ? fbLinks : fbLinks.slice(0, 3);
+  const displayImages = isFullPage ? images : images.slice(0, 12);
+  // Show top 8 priority YouTube videos in home tab preview, or all 17 on full page
+  const displayYt = isFullPage ? ytVideos : ytVideos.slice(0, 8);
   const displayDev = isFullPage ? devProjects : devProjects.slice(0, 6);
 
   return (
@@ -574,11 +576,12 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {displayYt.map((video, i) => (
-                    <VideoCard key={video.id} video={video} index={i} />
-                  ))}
-
-                  {displayFb.map((fb, i) => (
-                    <FbVideoCard key={fb.url} fb={fb} index={i} />
+                    <VideoCard
+                      key={video.id}
+                      video={video}
+                      index={i}
+                      onEnlarge={setSelectedVideo}
+                    />
                   ))}
                 </div>
               </div>
@@ -698,11 +701,12 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {displayYt.map((video, i) => (
-                      <VideoCard key={video.id} video={video} index={i} />
-                    ))}
-
-                    {displayFb.map((fb, i) => (
-                      <FbVideoCard key={fb.url} fb={fb} index={i} />
+                      <VideoCard
+                        key={video.id}
+                        video={video}
+                        index={i}
+                        onEnlarge={setSelectedVideo}
+                      />
                     ))}
                   </div>
                   <div className="mt-12 text-center relative z-20">
@@ -790,6 +794,7 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
         </div>
       </div>
 
+      {/* Modal d'agrandissement de l'image */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -815,9 +820,86 @@ export function Portfolio({ isFullPage = false }: { isFullPage?: boolean }) {
               <button
                 className="absolute top-4 right-4 w-12 h-12 bg-black/60 hover:bg-white hover:text-black rounded-full flex items-center justify-center text-white backdrop-blur-md transition-all duration-300 text-xl font-bold"
                 onClick={() => setSelectedImage(null)}
+                title="Fermer"
               >
                 ✕
               </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal d'agrandissement de la vidéo sur le site (Mode Cinéma / Théâtre) */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 lg:p-10 bg-black/95 backdrop-blur-xl"
+            onClick={() => setSelectedVideo(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className={`relative w-full ${
+                selectedVideo.isShort
+                  ? "max-w-md h-[90vh]"
+                  : "max-w-5xl aspect-video max-h-[88vh]"
+              } flex flex-col rounded-3xl overflow-hidden bg-black border border-white/20 shadow-[0_0_60px_rgba(6,182,212,0.3)]`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Barre supérieure du lecteur agrandi */}
+              <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 bg-gradient-to-r from-white/10 via-black to-white/5 border-b border-white/10 backdrop-blur-md z-20 flex-shrink-0">
+                <div className="flex items-center gap-2.5 min-w-0 pr-4">
+                  <span
+                    className={`inline-flex items-center gap-1 text-[11px] font-semibold uppercase px-2.5 py-0.5 rounded-full ${
+                      selectedVideo.isShort
+                        ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                        : "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
+                    }`}
+                  >
+                    <Clapperboard className="w-3 h-3" />
+                    {selectedVideo.isShort ? "Shorts" : "YouTube"}
+                  </span>
+                  <h3 className="text-sm sm:text-base font-semibold text-white truncate">
+                    {selectedVideo.title}
+                  </h3>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <a
+                    href={selectedVideo.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs text-white transition-colors"
+                  >
+                    <span>Ouvrir sur YouTube</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                  <button
+                    type="button"
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-white hover:text-black flex items-center justify-center text-white transition-all font-bold"
+                    onClick={() => setSelectedVideo(null)}
+                    title="Fermer (Échap)"
+                    aria-label="Fermer la vidéo agrandie"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Lecteur vidéo intégré en grand format */}
+              <div className="relative w-full flex-1 bg-black overflow-hidden">
+                <iframe
+                  src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1&rel=0`}
+                  title={selectedVideo.title}
+                  className="w-full h-full absolute inset-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
             </motion.div>
           </motion.div>
         )}
