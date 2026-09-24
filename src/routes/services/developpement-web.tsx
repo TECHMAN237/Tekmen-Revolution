@@ -7,10 +7,17 @@ export const Route = createFileRoute("/services/developpement-web")({
   head: () => ({
     meta: [
       { title: "Développement Web & Mobile — TEKMEN REVOLUTION" },
-      { name: "description", content: "Des solutions numériques modernes conçues pour accélérer votre croissance." },
+      {
+        name: "description",
+        content:
+          "Des solutions numériques modernes conçues pour accélérer votre croissance.",
+      },
     ],
     links: [
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap",
+      },
     ],
   }),
   component: DevWebPage,
@@ -185,14 +192,28 @@ function DevWebPage() {
             name: "Starter",
             features: isEn
               ? ["Regular backups", "Security updates", "Email support"]
-              : ["Sauvegardes régulières", "Mises à jour de sécurité", "Support par email"],
+              : [
+                  "Sauvegardes régulières",
+                  "Mises à jour de sécurité",
+                  "Support par email",
+                ],
             price: isEn ? "20,000 FCFA/month" : "20 000 FCFA/mois",
           },
           {
             name: "Business",
             features: isEn
-              ? ["Priority support", "Basic SEO", "Monthly reports", "Daily backups"]
-              : ["Support prioritaire", "SEO basique", "Rapports mensuels", "Sauvegardes quotidiennes"],
+              ? [
+                  "Priority support",
+                  "Basic SEO",
+                  "Monthly reports",
+                  "Daily backups",
+                ]
+              : [
+                  "Support prioritaire",
+                  "SEO basique",
+                  "Rapports mensuels",
+                  "Sauvegardes quotidiennes",
+                ],
             price: isEn ? "50,000 FCFA/month" : "50 000 FCFA/mois",
           },
           {
@@ -216,7 +237,9 @@ function DevWebPage() {
             highlighted: true,
           },
         ],
-        subscriptionLabel: isEn ? "Maintenance Plans" : "Formules de Maintenance",
+        subscriptionLabel: isEn
+          ? "Maintenance Plans"
+          : "Formules de Maintenance",
         portfolio: [
           {
             title: isEn ? "Fashion e-commerce site" : "Site e-commerce mode",

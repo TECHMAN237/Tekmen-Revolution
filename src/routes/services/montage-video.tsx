@@ -1,16 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePageLayout } from "../../components/ServicePageLayout";
-import { Clapperboard, Users, Clock, Target, Video, Zap, ShieldCheck } from "lucide-react";
+import {
+  Clapperboard,
+  Users,
+  Clock,
+  Target,
+  Video,
+  Zap,
+  ShieldCheck,
+} from "lucide-react";
 import { useLanguage } from "../../lib/LanguageContext";
 
 export const Route = createFileRoute("/services/montage-video")({
   head: () => ({
     meta: [
       { title: "Montage Vidéo — TEKMEN REVOLUTION" },
-      { name: "description", content: "Donnez vie à votre communication grâce à des vidéos professionnelles et engageantes." },
+      {
+        name: "description",
+        content:
+          "Donnez vie à votre communication grâce à des vidéos professionnelles et engageantes.",
+      },
     ],
     links: [
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap",
+      },
     ],
   }),
   component: MontageVideoPage,
@@ -56,27 +71,13 @@ function MontageVideoPage() {
           {
             category: isEn ? "Social Media" : "Réseaux Sociaux",
             items: isEn
-              ? [
-                  "Instagram Reel",
-                  "TikTok",
-                  "YouTube Shorts",
-                  "Subtitling",
-                ]
-              : [
-                  "Reel Instagram",
-                  "TikTok",
-                  "YouTube Shorts",
-                  "Sous-Titrage",
-                ],
+              ? ["Instagram Reel", "TikTok", "YouTube Shorts", "Subtitling"]
+              : ["Reel Instagram", "TikTok", "YouTube Shorts", "Sous-Titrage"],
           },
           {
             category: isEn ? "Advertising" : "Publicité",
             items: isEn
-              ? [
-                  "Video Ads",
-                  "Advertising Campaigns",
-                  "Corporate Video",
-                ]
+              ? ["Video Ads", "Advertising Campaigns", "Corporate Video"]
               : [
                   "Publicité Vidéo",
                   "Campagnes publicitaires",
@@ -102,11 +103,7 @@ function MontageVideoPage() {
           {
             category: isEn ? "Events" : "Événementiel",
             items: isEn
-              ? [
-                  "Event Video",
-                  "Event Recap",
-                  "Product Presentation",
-                ]
+              ? ["Event Video", "Event Recap", "Product Presentation"]
               : [
                   "Vidéo Événementielle",
                   "Retour d'événement",
@@ -192,29 +189,61 @@ function MontageVideoPage() {
           {
             name: "Starter",
             features: isEn
-              ? ["4 videos/month", "Short formats (Reels/TikTok)", "72h delivery"]
-              : ["4 vidéos/mois", "Formats courts (Reels/TikTok)", "Livraison sous 72h"],
+              ? [
+                  "4 videos/month",
+                  "Short formats (Reels/TikTok)",
+                  "72h delivery",
+                ]
+              : [
+                  "4 vidéos/mois",
+                  "Formats courts (Reels/TikTok)",
+                  "Livraison sous 72h",
+                ],
             price: isEn ? "40,000 FCFA/month" : "40 000 FCFA/mois",
           },
           {
             name: "Business",
             features: isEn
-              ? ["8 videos/month", "Short and long formats", "Subtitling included", "48h delivery"]
-              : ["8 vidéos/mois", "Formats courts et longs", "Sous-titrage inclus", "Livraison sous 48h"],
+              ? [
+                  "8 videos/month",
+                  "Short and long formats",
+                  "Subtitling included",
+                  "48h delivery",
+                ]
+              : [
+                  "8 vidéos/mois",
+                  "Formats courts et longs",
+                  "Sous-titrage inclus",
+                  "Livraison sous 48h",
+                ],
             price: isEn ? "75,000 FCFA/month" : "75 000 FCFA/mois",
           },
           {
             name: "Premium",
             features: isEn
-              ? ["15 videos/month", "All formats included", "Motion Design included", "Absolute priority", "Unlimited revisions"]
-              : ["15 vidéos/mois", "Tous formats confondus", "Motion Design inclus", "Priorité absolue", "Révisions illimitées"],
+              ? [
+                  "15 videos/month",
+                  "All formats included",
+                  "Motion Design included",
+                  "Absolute priority",
+                  "Unlimited revisions",
+                ]
+              : [
+                  "15 vidéos/mois",
+                  "Tous formats confondus",
+                  "Motion Design inclus",
+                  "Priorité absolue",
+                  "Révisions illimitées",
+                ],
             price: isEn ? "130,000 FCFA/month" : "130 000 FCFA/mois",
             highlighted: true,
           },
         ],
         portfolio: [
           {
-            title: isEn ? "Launched product campaign" : "Campagne produit lancé",
+            title: isEn
+              ? "Launched product campaign"
+              : "Campagne produit lancé",
             tag: "Reels & TikTok",
             gradient: "from-purple-600/30 via-pink-600/30 to-red-600/30",
           },

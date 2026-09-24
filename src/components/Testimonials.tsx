@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, Quote, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import {
+  Star,
+  Quote,
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+} from "lucide-react";
 import { useLanguage, translations } from "../lib/LanguageContext";
 
 /* ──────────────────────────────────────────────
@@ -11,10 +17,10 @@ export interface Testimonial {
   name: string;
   role: string;
   company: string;
-  avatar: string;       // URL de l'image ou initiales
-  rating: number;       // 1–5 étoiles
+  avatar: string; // URL de l'image ou initiales
+  rating: number; // 1–5 étoiles
   text: string;
-  projectType: string;  // Ex: "Site Web", "Design", "Vidéo"
+  projectType: string; // Ex: "Site Web", "Design", "Vidéo"
 }
 
 const testimonials: Testimonial[] = [
@@ -112,16 +118,24 @@ function StarRating({ rating }: { rating: number }) {
    Project-type badge colors
    ────────────────────────────────────────────── */
 const badgeColors: Record<string, string> = {
-  "Site Web": "from-indigo-500/20 to-purple-500/20 border-indigo-500/30 text-indigo-300",
-  "Application Web": "from-cyan-500/20 to-blue-500/20 border-cyan-500/30 text-cyan-300",
-  "Vidéo": "from-rose-500/20 to-pink-500/20 border-rose-500/30 text-rose-300",
-  "Design Graphique": "from-amber-500/20 to-orange-500/20 border-amber-500/30 text-amber-300",
-  "UX/UI Design": "from-emerald-500/20 to-teal-500/20 border-emerald-500/30 text-emerald-300",
-  "E-commerce": "from-violet-500/20 to-fuchsia-500/20 border-violet-500/30 text-violet-300",
+  "Site Web":
+    "from-indigo-500/20 to-purple-500/20 border-indigo-500/30 text-indigo-300",
+  "Application Web":
+    "from-cyan-500/20 to-blue-500/20 border-cyan-500/30 text-cyan-300",
+  Vidéo: "from-rose-500/20 to-pink-500/20 border-rose-500/30 text-rose-300",
+  "Design Graphique":
+    "from-amber-500/20 to-orange-500/20 border-amber-500/30 text-amber-300",
+  "UX/UI Design":
+    "from-emerald-500/20 to-teal-500/20 border-emerald-500/30 text-emerald-300",
+  "E-commerce":
+    "from-violet-500/20 to-fuchsia-500/20 border-violet-500/30 text-violet-300",
 };
 
 function getBadgeClass(projectType: string) {
-  return badgeColors[projectType] || "from-purple-500/20 to-indigo-500/20 border-purple-500/30 text-purple-300";
+  return (
+    badgeColors[projectType] ||
+    "from-purple-500/20 to-indigo-500/20 border-purple-500/30 text-purple-300"
+  );
 }
 
 /* ══════════════════════════════════════════════
@@ -131,15 +145,27 @@ export function Testimonials() {
   const [activePage, setActivePage] = useState(0);
   const perPage = 3;
   const totalPages = Math.ceil(testimonials.length / perPage);
-  const visible = testimonials.slice(activePage * perPage, activePage * perPage + perPage);
+  const visible = testimonials.slice(
+    activePage * perPage,
+    activePage * perPage + perPage,
+  );
   const { t } = useLanguage();
 
   /* ── Stats ── */
   const stats = [
-    { value: "500+", label: t(translations.testimonials.stats.deliveredProjects) },
-    { value: "98%", label: t(translations.testimonials.stats.satisfiedClients) },
+    {
+      value: "500+",
+      label: t(translations.testimonials.stats.deliveredProjects),
+    },
+    {
+      value: "98%",
+      label: t(translations.testimonials.stats.satisfiedClients),
+    },
     { value: "5.0", label: t(translations.testimonials.stats.averageRating) },
-    { value: "24/7", label: t(translations.testimonials.stats.customerSupport) },
+    {
+      value: "24/7",
+      label: t(translations.testimonials.stats.customerSupport),
+    },
   ];
 
   return (
@@ -222,8 +248,12 @@ export function Testimonials() {
               className="relative p-6 rounded-2xl glass text-center group hover:border-purple-500/20 transition-all duration-500"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl" />
-              <p className="text-2xl sm:text-3xl font-display font-bold text-gradient relative z-10">{s.value}</p>
-              <p className="mt-1 text-xs sm:text-sm text-muted-foreground/70 font-medium relative z-10">{s.label}</p>
+              <p className="text-2xl sm:text-3xl font-display font-bold text-gradient relative z-10">
+                {s.value}
+              </p>
+              <p className="mt-1 text-xs sm:text-sm text-muted-foreground/70 font-medium relative z-10">
+                {s.label}
+              </p>
             </div>
           ))}
         </motion.div>
@@ -254,20 +284,31 @@ export function Testimonials() {
                     {/* Avatar */}
                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-purple-500/30">
                       {testimonials[0].avatar ? (
-                        <img src={testimonials[0].avatar} alt={testimonials[0].name} className="w-full h-full rounded-full object-cover" />
+                        <img
+                          src={testimonials[0].avatar}
+                          alt={testimonials[0].name}
+                          className="w-full h-full rounded-full object-cover"
+                        />
                       ) : (
                         getInitials(testimonials[0].name)
                       )}
                     </div>
                     <div>
-                      <p className="text-white font-semibold text-base">{testimonials[0].name}</p>
+                      <p className="text-white font-semibold text-base">
+                        {testimonials[0].name}
+                      </p>
                       <p className="text-muted-foreground/70 text-sm">
-                        {testimonials[0].role} — <span className="text-purple-400">{testimonials[0].company}</span>
+                        {testimonials[0].role} —{" "}
+                        <span className="text-purple-400">
+                          {testimonials[0].company}
+                        </span>
                       </p>
                     </div>
                   </div>
                   <div className="sm:ml-auto flex items-center gap-3">
-                    <div className={`px-3 py-1 rounded-full bg-gradient-to-r border text-xs font-semibold ${getBadgeClass(testimonials[0].projectType)}`}>
+                    <div
+                      className={`px-3 py-1 rounded-full bg-gradient-to-r border text-xs font-semibold ${getBadgeClass(testimonials[0].projectType)}`}
+                    >
                       {testimonials[0].projectType}
                     </div>
                     <StarRating rating={testimonials[0].rating} />
@@ -304,7 +345,9 @@ export function Testimonials() {
                     <div className="relative z-10 flex flex-col h-full">
                       {/* Header: Badge + Rating */}
                       <div className="flex items-center justify-between mb-5">
-                        <div className={`px-2.5 py-1 rounded-full bg-gradient-to-r border text-[10px] font-semibold ${getBadgeClass(t.projectType)}`}>
+                        <div
+                          className={`px-2.5 py-1 rounded-full bg-gradient-to-r border text-[10px] font-semibold ${getBadgeClass(t.projectType)}`}
+                        >
                           {t.projectType}
                         </div>
                         <StarRating rating={t.rating} />
@@ -324,15 +367,24 @@ export function Testimonials() {
                       <div className="flex items-center gap-3">
                         <div className="w-11 h-11 rounded-full bg-gradient-to-br from-purple-500/80 to-indigo-600/80 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-purple-500/20">
                           {t.avatar ? (
-                            <img src={t.avatar} alt={t.name} className="w-full h-full rounded-full object-cover" />
+                            <img
+                              src={t.avatar}
+                              alt={t.name}
+                              className="w-full h-full rounded-full object-cover"
+                            />
                           ) : (
                             getInitials(t.name)
                           )}
                         </div>
                         <div>
-                          <p className="text-white font-semibold text-sm">{t.name}</p>
+                          <p className="text-white font-semibold text-sm">
+                            {t.name}
+                          </p>
                           <p className="text-muted-foreground/60 text-xs">
-                            {t.role} · <span className="text-purple-400/80">{t.company}</span>
+                            {t.role} ·{" "}
+                            <span className="text-purple-400/80">
+                              {t.company}
+                            </span>
                           </p>
                         </div>
                       </div>
@@ -371,7 +423,9 @@ export function Testimonials() {
               </div>
 
               <button
-                onClick={() => setActivePage((p) => Math.min(totalPages - 1, p + 1))}
+                onClick={() =>
+                  setActivePage((p) => Math.min(totalPages - 1, p + 1))
+                }
                 disabled={activePage === totalPages - 1}
                 className="p-3 rounded-full glass hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 aria-label="Page suivante"

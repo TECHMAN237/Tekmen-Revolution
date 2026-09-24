@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  type ReactNode,
+} from "react";
 import { type Language, translations, t as tFn } from "./translations";
 
 interface LanguageContextType {
@@ -7,7 +13,9 @@ interface LanguageContextType {
   t: (obj: { en: string; fr: string }) => string;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const LanguageContext = createContext<LanguageContextType | undefined>(
+  undefined,
+);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Language>("en");
@@ -18,7 +26,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const t = useCallback(
     (obj: { en: string; fr: string }) => tFn(obj, lang),
-    [lang]
+    [lang],
   );
 
   return (

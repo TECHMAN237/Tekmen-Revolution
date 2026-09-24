@@ -1,16 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ServicePageLayout } from "../../components/ServicePageLayout";
-import { Palette, Award, Clock, Target, Image, Zap, ShieldCheck } from "lucide-react";
+import {
+  Palette,
+  Award,
+  Clock,
+  Target,
+  Image,
+  Zap,
+  ShieldCheck,
+} from "lucide-react";
 import { useLanguage } from "../../lib/LanguageContext";
 
 export const Route = createFileRoute("/services/graphic-design")({
   head: () => ({
     meta: [
       { title: "Graphic Design — TEKMEN REVOLUTION" },
-      { name: "description", content: "Des créations visuelles professionnelles qui valorisent votre image de marque et attirent votre audience." },
+      {
+        name: "description",
+        content:
+          "Des créations visuelles professionnelles qui valorisent votre image de marque et attirent votre audience.",
+      },
     ],
     links: [
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap",
+      },
     ],
   }),
   component: GraphicDesignPage,
@@ -98,14 +113,8 @@ function GraphicDesignPage() {
           {
             category: isEn ? "Brand Identity" : "Identité de Marque",
             items: isEn
-              ? [
-                  "Professional Logo",
-                  "Brand Guidelines",
-                ]
-              : [
-                  "Logo Professionnel",
-                  "Charte Graphique",
-                ],
+              ? ["Professional Logo", "Brand Guidelines"]
+              : ["Logo Professionnel", "Charte Graphique"],
           },
         ],
         process: [
@@ -222,28 +231,56 @@ function GraphicDesignPage() {
             name: "Starter",
             features: isEn
               ? ["10 visuals/month", "Social media formats", "48h delivery"]
-              : ["10 visuels/mois", "Formats réseaux sociaux", "Livraison sous 48h"],
+              : [
+                  "10 visuels/mois",
+                  "Formats réseaux sociaux",
+                  "Livraison sous 48h",
+                ],
             price: isEn ? "30,000 FCFA/month" : "30 000 FCFA/mois",
           },
           {
             name: "Business",
             features: isEn
-              ? ["20 visuals/month", "Social media formats", "Print materials included", "24h delivery"]
-              : ["20 visuels/mois", "Formats réseaux sociaux", "Supports print inclus", "Livraison sous 24h"],
+              ? [
+                  "20 visuals/month",
+                  "Social media formats",
+                  "Print materials included",
+                  "24h delivery",
+                ]
+              : [
+                  "20 visuels/mois",
+                  "Formats réseaux sociaux",
+                  "Supports print inclus",
+                  "Livraison sous 24h",
+                ],
             price: isEn ? "55,000 FCFA/month" : "55 000 FCFA/mois",
           },
           {
             name: "Premium",
             features: isEn
-              ? ["40 visuals/month", "All formats included", "Absolute priority", "Art direction", "Unlimited revisions"]
-              : ["40 visuels/mois", "Tous formats confondus", "Priorité absolue", "Direction artistique", "Révisions illimitées"],
+              ? [
+                  "40 visuals/month",
+                  "All formats included",
+                  "Absolute priority",
+                  "Art direction",
+                  "Unlimited revisions",
+                ]
+              : [
+                  "40 visuels/mois",
+                  "Tous formats confondus",
+                  "Priorité absolue",
+                  "Direction artistique",
+                  "Révisions illimitées",
+                ],
             price: isEn ? "100,000 FCFA/month" : "100 000 FCFA/mois",
             highlighted: true,
           },
         ],
         portfolio: [
           {
-            title: isEn ? "Product launch campaign" : "Campagne de lancement produit",
+            title: isEn
+              ? "Product launch campaign"
+              : "Campagne de lancement produit",
             tag: isEn ? "Visual Identity" : "Identité visuelle",
             gradient: "from-purple-600/30 via-pink-600/30 to-red-600/30",
           },

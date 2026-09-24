@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import dashboardImg from "../../dashboard.png";
 import { useLanguage, translations } from "../lib/LanguageContext";
 
-
 export function Hero() {
   const [splineVisible, setSplineVisible] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
@@ -19,7 +18,7 @@ export function Hero() {
       ([entry]) => {
         setSplineVisible(entry.isIntersecting);
       },
-      { rootMargin: '200px 0px', threshold: 0 }
+      { rootMargin: "200px 0px", threshold: 0 },
     );
 
     observer.observe(section);
@@ -27,7 +26,12 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="home" className="relative pt-36 sm:pt-40 lg:pt-44 pb-12 overflow-hidden" style={{ contain: 'layout style' }}>
+    <section
+      ref={sectionRef}
+      id="home"
+      className="relative pt-36 sm:pt-40 lg:pt-44 pb-12 overflow-hidden"
+      style={{ contain: "layout style" }}
+    >
       {/* Local hero accent glows (scene background handled globally) */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute top-1/3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--cyan-glow)]/40 to-transparent" />
@@ -35,17 +39,25 @@ export function Hero() {
 
       {/* Spline Animation Background - Only rendered when Hero is in/near viewport */}
       {splineVisible && (
-        <div className="absolute left-1/2 -translate-x-1/2 top-[20%] w-full max-w-6xl h-[800px] z-0 pointer-events-none opacity-80" style={{ contain: 'strict' }}>
+        <div
+          className="absolute left-1/2 -translate-x-1/2 top-[20%] w-full max-w-6xl h-[800px] z-0 pointer-events-none opacity-80"
+          style={{ contain: "strict" }}
+        >
           {/* Watermark Mask - A solid background block to hide the Spline watermark cleanly */}
           <div className="absolute bottom-4 right-4 w-32 h-12 bg-[#0B0F19] z-10 rounded-lg pointer-events-none" />
-          <spline-viewer 
-            url="https://prod.spline.design/eS0S-ISUdGML49-e/scene.splinecode" 
-            background="transparent" 
+          <spline-viewer
+            url="https://prod.spline.design/eS0S-ISUdGML49-e/scene.splinecode"
+            background="transparent"
             loading-library="lazy"
             loading="lazy"
             hint="performance"
             events-none="true"
-            style={{ width: '100%', height: '100%', display: 'block', backgroundColor: 'transparent' }}
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "block",
+              backgroundColor: "transparent",
+            }}
           />
         </div>
       )}
@@ -56,12 +68,10 @@ export function Hero() {
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          onAnimationComplete={(def: any) => {
-            // Clear will-change after entrance animation to free compositor memory
-          }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm text-muted-foreground mx-auto mb-8"
         >
-          <span className="text-[var(--cyan-glow)]">✨</span> {t(translations.hero.badge).replace('✨ ', '')}
+          <span className="text-[var(--cyan-glow)]">✨</span>{" "}
+          {t(translations.hero.badge).replace("✨ ", "")}
         </motion.div>
 
         {/* Main Title */}
@@ -71,8 +81,12 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="font-display font-semibold tracking-tight text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-4xl mx-auto leading-[1.1] mb-6"
         >
-          {t(translations.hero.titleLine1)}<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-[#28B6FF]">{t(translations.hero.titleBrand)}</span>
-          <br />{t(translations.hero.titleLine2)}
+          {t(translations.hero.titleLine1)}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-[#28B6FF]">
+            {t(translations.hero.titleBrand)}
+          </span>
+          <br />
+          {t(translations.hero.titleLine2)}
         </motion.h1>
 
         {/* Subtitle */}
@@ -92,10 +106,16 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
-          <a href="#services" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-[#6D28D9] hover:bg-[#5B21B6] transition-colors w-full sm:w-auto">
+          <a
+            href="#services"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-[#6D28D9] hover:bg-[#5B21B6] transition-colors w-full sm:w-auto"
+          >
             {t(translations.hero.ctaPrimary)} <ArrowRight className="w-4 h-4" />
           </a>
-          <a href="#about" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-colors w-full sm:w-auto">
+          <a
+            href="#about"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-colors w-full sm:w-auto"
+          >
             {t(translations.hero.ctaSecondary)}
           </a>
         </motion.div>
@@ -113,25 +133,28 @@ export function Hero() {
 
           <div className="relative z-20 rounded-2xl overflow-hidden border border-white/10">
             {/* Global opacity set to 75% as requested, with screen blend mode to keep it premium. */}
-            <img 
-              src={dashboardImg} 
-              alt="Tekmen Revolution Dashboard" 
+            <img
+              src={dashboardImg}
+              alt="Tekmen Revolution Dashboard"
               className="w-full h-auto object-contain mix-blend-screen opacity-75"
             />
 
             {/* Real Interactive Buttons overlaid on the dashboard */}
             <div className="absolute bottom-[10%] left-0 right-0 flex justify-center gap-4 px-4">
-              <a href="#services" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-lg shadow-purple-500/25 transition-all hover:scale-105">
+              <a
+                href="#services"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-lg shadow-purple-500/25 transition-all hover:scale-105"
+              >
                 {t(translations.hero.discoverServices)}
               </a>
               <button className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-white/15 border border-white/20 hover:bg-white/20 transition-all hover:scale-105">
-                <Play className="w-4 h-4 fill-current" /> {t(translations.hero.watchVideo)}
+                <Play className="w-4 h-4 fill-current" />{" "}
+                {t(translations.hero.watchVideo)}
               </button>
             </div>
           </div>
         </motion.div>
       </div>
-
     </section>
   );
 }

@@ -36,7 +36,7 @@ app.use(
     },
     methods: ["POST"],
     credentials: true,
-  })
+  }),
 );
 
 // ── Rate Limiting — Max 5 emails per IP per 15 minutes ───────

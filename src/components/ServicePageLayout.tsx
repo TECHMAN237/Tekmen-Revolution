@@ -1,5 +1,13 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Check, MessageCircle, Star, ChevronDown, ArrowLeft, type LucideIcon } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  MessageCircle,
+  Star,
+  ChevronDown,
+  ArrowLeft,
+  type LucideIcon,
+} from "lucide-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import logoImg from "../../logo.png";
@@ -90,7 +98,15 @@ const navPaths = [
 ];
 
 /* ─── Motion Fade-In Wrapper ─── */
-function FadeIn({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+function FadeIn({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 35 }}
@@ -105,7 +121,13 @@ function FadeIn({ children, className = "", delay = 0 }: { children: React.React
 }
 
 /* ─── Section Heading Component ─── */
-function SectionHeading({ title, subtitle }: { title: string; subtitle?: string }) {
+function SectionHeading({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle?: string;
+}) {
   return (
     <div className="text-center mb-16 max-w-2xl mx-auto">
       <motion.h2
@@ -143,7 +165,9 @@ function FAQAccordion({ item, index }: { item: FAQItem; index: number }) {
         className="w-full flex justify-between items-center text-left py-2 font-display font-semibold text-white/95 hover:text-white transition-colors"
       >
         <span className="text-base sm:text-lg pr-4">{item.question}</span>
-        <ChevronDown className={`w-5 h-5 text-purple-400 transition-transform duration-300 flex-shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown
+          className={`w-5 h-5 text-purple-400 transition-transform duration-300 flex-shrink-0 ${isOpen ? "rotate-180" : ""}`}
+        />
       </button>
       <AnimatePresence initial={false}>
         {isOpen && (
@@ -165,7 +189,13 @@ function FAQAccordion({ item, index }: { item: FAQItem; index: number }) {
 }
 
 /* ─── Process Timeline Component ─── */
-function ProcessTimeline({ process, serviceTitle }: { process: ProcessStep[]; serviceTitle: string }) {
+function ProcessTimeline({
+  process,
+  serviceTitle,
+}: {
+  process: ProcessStep[];
+  serviceTitle: string;
+}) {
   return (
     <div className="relative">
       {/* Desktop: Horizontal timeline */}
@@ -215,7 +245,9 @@ function ProcessTimeline({ process, serviceTitle }: { process: ProcessStep[]; se
             >
               <div className="flex flex-col items-center">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.3)]">
-                  <span className="font-bold text-white text-sm">{idx + 1}</span>
+                  <span className="font-bold text-white text-sm">
+                    {idx + 1}
+                  </span>
                 </div>
                 {idx < process.length - 1 && (
                   <div className="w-0.5 h-16 bg-gradient-to-b from-purple-500/50 to-transparent mt-3" />
@@ -259,14 +291,20 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
         className="fixed top-5 left-4 sm:top-6 sm:left-6 z-[60] inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs sm:text-sm font-semibold text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-all shadow-lg"
       >
         <ArrowLeft className="w-4 h-4" />
-        <span className="hidden sm:inline">{t(translations.serviceLayout.back)}</span>
+        <span className="hidden sm:inline">
+          {t(translations.serviceLayout.back)}
+        </span>
       </Link>
 
       {/* ─── HEADER/NAVBAR ─── */}
       <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 bg-[#0B0F19]/80 backdrop-blur-xl border-b border-white/5">
         <div className="mx-auto max-w-7xl flex items-center justify-between py-3.5">
           <Link to="/" className="flex items-center gap-3 group">
-            <img src={logoImg} alt="Tekmen Revolution" className="h-8 sm:h-10 w-auto" />
+            <img
+              src={logoImg}
+              alt="Tekmen Revolution"
+              className="h-8 sm:h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Nav */}
@@ -278,7 +316,7 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                 return (
                   <Link
                     key={link.href}
-                    to={link.href as any}
+                    to={link.href}
                     className={`relative px-4 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 ${
                       isActive
                         ? "text-white bg-gradient-to-r from-purple-600 to-indigo-600 shadow-[0_4px_15px_rgba(124,58,237,0.3)]"
@@ -353,7 +391,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all shadow-[0_0_30px_rgba(124,58,237,0.4)]"
                 >
-                  {t(translations.serviceLayout.requestQuote)} <ArrowRight className="w-4 h-4" />
+                  {t(translations.serviceLayout.requestQuote)}{" "}
+                  <ArrowRight className="w-4 h-4" />
                 </a>
                 <WhatsAppHint variant="devis" />
               </div>
@@ -365,7 +404,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-white bg-white/[0.06] border border-white/10 hover:bg-white/10 transition-all"
                 >
-                  <MessageCircle className="w-4 h-4 text-emerald-400" /> WhatsApp
+                  <MessageCircle className="w-4 h-4 text-emerald-400" />{" "}
+                  WhatsApp
                 </a>
                 <WhatsAppHint variant="general" />
               </div>
@@ -470,7 +510,9 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
             {data.portfolio.map((item, idx) => (
               <FadeIn key={item.title} delay={idx * 0.15}>
                 <div className="group relative rounded-3xl overflow-hidden bg-white/[0.02] border border-white/5 hover:border-purple-500/25 transition-all duration-300 flex flex-col h-72">
-                  <div className={`w-full h-44 bg-gradient-to-br ${item.gradient} relative flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity duration-300`}>
+                  <div
+                    className={`w-full h-44 bg-gradient-to-br ${item.gradient} relative flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity duration-300`}
+                  >
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.3),transparent_70%)]" />
                     <span className="text-2xl font-display font-bold text-white/50 group-hover:text-white/80 transition-colors uppercase tracking-wider">
                       {item.tag}
@@ -523,12 +565,15 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                       </div>
                       <div className="flex flex-col gap-2">
                         <a
-                          href={buildWhatsappUrl(`${defaultMsg}\n\n${cardMsg}${card.label}`)}
+                          href={buildWhatsappUrl(
+                            `${defaultMsg}\n\n${cardMsg}${card.label}`,
+                          )}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border border-purple-500/30 hover:bg-purple-600/30 transition-all duration-300"
                         >
-                          {t(translations.serviceLayout.requestQuote)} <ArrowRight className="w-4 h-4" />
+                          {t(translations.serviceLayout.requestQuote)}{" "}
+                          <ArrowRight className="w-4 h-4" />
                         </a>
                         <WhatsAppHint variant="devis" />
                       </div>
@@ -556,7 +601,10 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
       <section className="relative py-24 bg-gradient-to-b from-[#101524] to-transparent">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
-            title={data.subscriptionLabel || t(translations.serviceLayout.subscriptionTitle)}
+            title={
+              data.subscriptionLabel ||
+              t(translations.serviceLayout.subscriptionTitle)
+            }
             subtitle={t(translations.serviceLayout.subscriptionSubtitle)}
           />
 
@@ -576,26 +624,36 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                     </div>
                   )}
 
-                  <h3 className={`font-display font-bold text-xl mb-2 ${plan.highlighted ? "text-purple-300" : "text-white"}`}>
+                  <h3
+                    className={`font-display font-bold text-xl mb-2 ${plan.highlighted ? "text-purple-300" : "text-white"}`}
+                  >
                     {plan.name}
                   </h3>
 
                   <div className="mt-2 mb-8">
-                    <span className="font-display font-bold text-2xl sm:text-3xl text-white">{plan.price}</span>
+                    <span className="font-display font-bold text-2xl sm:text-3xl text-white">
+                      {plan.price}
+                    </span>
                   </div>
 
                   <ul className="space-y-4 flex-grow mb-8">
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-start gap-3">
-                        <Check className={`w-5 h-5 flex-shrink-0 mt-0.5 ${plan.highlighted ? "text-purple-400" : "text-cyan-400"}`} />
-                        <span className="text-sm text-muted-foreground/80 leading-relaxed font-light">{f}</span>
+                        <Check
+                          className={`w-5 h-5 flex-shrink-0 mt-0.5 ${plan.highlighted ? "text-purple-400" : "text-cyan-400"}`}
+                        />
+                        <span className="text-sm text-muted-foreground/80 leading-relaxed font-light">
+                          {f}
+                        </span>
                       </li>
                     ))}
                   </ul>
 
                   <div className="flex flex-col gap-2">
                     <a
-                      href={buildWhatsappUrl(`${defaultMsg}\n\n${planMsg}${plan.name}`)}
+                      href={buildWhatsappUrl(
+                        `${defaultMsg}\n\n${planMsg}${plan.name}`,
+                      )}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-semibold transition-all duration-300 hover:scale-[1.02] ${
@@ -604,7 +662,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                           : "text-white bg-white/[0.06] border border-white/10 hover:bg-white/10"
                       }`}
                     >
-                      {t(translations.serviceLayout.subscribe)} <ArrowRight className="w-4 h-4" />
+                      {t(translations.serviceLayout.subscribe)}{" "}
+                      <ArrowRight className="w-4 h-4" />
                     </a>
                     <WhatsAppHint variant="devis" />
                   </div>
@@ -657,7 +716,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-10 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all shadow-[0_0_40px_rgba(124,58,237,0.4)]"
                   >
-                    {t(translations.serviceLayout.requestFreeQuote)} <ArrowRight className="w-5 h-5" />
+                    {t(translations.serviceLayout.requestFreeQuote)}{" "}
+                    <ArrowRight className="w-5 h-5" />
                   </a>
                   <WhatsAppHint variant="devis" />
                 </div>
@@ -669,7 +729,8 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-semibold text-white bg-white/[0.06] border border-white/10 hover:bg-white/10 transition-all"
                   >
-                    <MessageCircle className="w-5 h-5 text-emerald-400" /> {t(translations.serviceLayout.contactWhatsApp)}
+                    <MessageCircle className="w-5 h-5 text-emerald-400" />{" "}
+                    {t(translations.serviceLayout.contactWhatsApp)}
                   </a>
                   <WhatsAppHint variant="general" />
                 </div>
@@ -682,8 +743,15 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
       {/* ─── FOOTER ─── */}
       <footer className="py-16 text-center text-xs text-muted-foreground border-t border-white/5 relative z-10 bg-[#0B0F19]">
         <div className="flex flex-col items-center gap-6">
-          <img src={logoImg} alt="TEKMEN REVOLUTION" className="h-10 w-auto opacity-70 hover:opacity-100 transition-opacity" />
-          <p>© {new Date().getFullYear()} TEKMEN REVOLUTION. {t(translations.footer.rights)}</p>
+          <img
+            src={logoImg}
+            alt="TEKMEN REVOLUTION"
+            className="h-10 w-auto opacity-70 hover:opacity-100 transition-opacity"
+          />
+          <p>
+            © {new Date().getFullYear()} TEKMEN REVOLUTION.{" "}
+            {t(translations.footer.rights)}
+          </p>
         </div>
       </footer>
 
@@ -696,7 +764,10 @@ export function ServicePageLayout({ data }: { data: ServicePageData }) {
         aria-label="WhatsApp"
       >
         <MessageCircle className="w-6 h-6 text-white" />
-        <span className="sr-only">Une question, un projet ou besoin d'un devis ? Échangez directement avec notre équipe.</span>
+        <span className="sr-only">
+          Une question, un projet ou besoin d'un devis ? Échangez directement
+          avec notre équipe.
+        </span>
       </a>
     </main>
   );

@@ -6,7 +6,11 @@ export function About() {
   const { t } = useLanguage();
 
   return (
-    <section id="about" className="relative py-24 sm:py-36 overflow-hidden" style={{ contain: 'layout style' }}>
+    <section
+      id="about"
+      className="relative py-24 sm:py-36 overflow-hidden"
+      style={{ contain: "layout style" }}
+    >
       {/* High-Visibility Section Background Decor — blur reduced for scroll perf */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[5%] left-[-5%] w-[450px] h-[450px] bg-purple-600/40 blur-[50px] rounded-full opacity-80" />
@@ -16,7 +20,7 @@ export function About() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-10%" }}
@@ -27,16 +31,20 @@ export function About() {
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(167,139,250,1)] animate-pulse" />
               {t(translations.about.badge)}
             </div>
-            
+
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-[1.05] tracking-tight">
-              {t(translations.about.titlePrefix)}<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-400 to-[#28B6FF]">TEKMEN REVOLUTION</span>{t(translations.about.titleSuffix)}
+              {t(translations.about.titlePrefix)}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-400 to-[#28B6FF]">
+                TEKMEN REVOLUTION
+              </span>
+              {t(translations.about.titleSuffix)}
             </h2>
-            
+
             <p className="mt-8 text-base sm:text-lg text-muted-foreground/90 leading-relaxed max-w-2xl font-light">
               {t(translations.about.description)}
             </p>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
@@ -61,33 +69,37 @@ export function About() {
             <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-black/70 backdrop-blur p-8 sm:p-12 shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] group transition-all duration-500 hover:border-purple-500/30 hover:shadow-purple-500/10">
               {/* Subtle halo spot behind the card */}
               <div className="absolute -inset-20 bg-purple-500/5 blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-              
+
               <div className="relative z-10">
                 <p className="text-2xl sm:text-3xl text-white font-bold leading-tight tracking-tight mb-8">
                   {t(translations.about.cardTitle)}
                 </p>
-                
+
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent mb-10" />
-                
+
                 <div className="space-y-8">
                   <p className="text-sm text-muted-foreground/80 font-medium">
                     {t(translations.about.cardSubtitle)}
                   </p>
-                  
+
                   <div className="flex flex-col gap-4">
-                    <motion.a 
+                    <motion.a
                       whileHover={{ scale: 1.02, y: -2 }}
                       whileTap={{ scale: 0.98 }}
-                      href="#portfolio" 
+                      href="#portfolio"
                       className="group relative inline-flex items-center justify-center gap-3 px-8 py-4.5 rounded-2xl text-base font-bold text-white btn-primary-gradient shadow-xl shadow-purple-500/20 transition-all"
                     >
                       {t(translations.about.explorePortfolio)}
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </motion.a>
-                    <motion.a 
-                      whileHover={{ scale: 1.02, y: -2, backgroundColor: 'rgba(255,255,255,0.1)' }}
+                    <motion.a
+                      whileHover={{
+                        scale: 1.02,
+                        y: -2,
+                        backgroundColor: "rgba(255,255,255,0.1)",
+                      }}
                       whileTap={{ scale: 0.98 }}
-                      href="#contact" 
+                      href="#contact"
                       className="inline-flex items-center justify-center px-8 py-4.5 rounded-2xl text-base font-bold text-white border border-white/10 bg-white/5 transition-all"
                     >
                       {t(translations.about.bookNow)}

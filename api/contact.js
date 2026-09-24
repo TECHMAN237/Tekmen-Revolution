@@ -65,7 +65,13 @@ function isSpam({ honeypot, name, message }) {
 
 // ── HTML Escape ──────────────────────────────────────────────
 function escapeHtml(str) {
-  const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
+  const map = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  };
   return str.replace(/[&<>"']/g, (c) => map[c]);
 }
 
@@ -179,7 +185,9 @@ function buildEmailHTML({ name, email, message, timestamp }) {
 export default async function handler(req, res) {
   // ── Only allow POST ────────────────────────────────────────
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, error: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ success: false, error: "Method not allowed" });
   }
 
   // ── CORS Headers ───────────────────────────────────────────
@@ -294,8 +302,11 @@ export default async function handler(req, res) {
     let userMessage = "Failed to send message. Please try again later.";
 
     if (error.code === "EAUTH") {
-      console.error("🔐 SMTP Authentication failed — check EMAIL_PASS (Gmail App Password)");
-      userMessage = "Server email configuration error. Please contact the administrator.";
+      console.error(
+        "🔐 SMTP Authentication failed — check EMAIL_PASS (Gmail App Password)",
+      );
+      userMessage =
+        "Server email configuration error. Please contact the administrator.";
     }
 
     return res.status(500).json({

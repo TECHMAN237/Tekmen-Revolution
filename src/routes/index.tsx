@@ -20,7 +20,10 @@ export const Route = createFileRoute("/")({
         content:
           "Agence tech premium : solutions innovantes en Design, Web, Vidéo et Ingénierie. 500+ projets, support 24/7.",
       },
-      { property: "og:title", content: "TEKMEN REVOLUTION — L'Excellence Technologique" },
+      {
+        property: "og:title",
+        content: "TEKMEN REVOLUTION — L'Excellence Technologique",
+      },
       {
         property: "og:description",
         content: "Solutions innovantes en Design, Web, Vidéo et Ingénierie.",
@@ -52,8 +55,15 @@ function Index() {
       <Contact />
       <footer className="py-16 text-center text-xs text-muted-foreground border-t border-white/5 relative z-10">
         <div className="flex flex-col items-center gap-6">
-          <img src={logoImg} alt="TEKMEN REVOLUTION" className="h-10 w-auto opacity-70 hover:opacity-100 transition-opacity" />
-          <p>© {new Date().getFullYear()} TEKMEN REVOLUTION. {t(translations.footer.rights)}</p>
+          <img
+            src={logoImg}
+            alt="TEKMEN REVOLUTION"
+            className="h-10 w-auto opacity-70 hover:opacity-100 transition-opacity"
+          />
+          <p>
+            © {new Date().getFullYear()} TEKMEN REVOLUTION.{" "}
+            {t(translations.footer.rights)}
+          </p>
         </div>
       </footer>
     </main>

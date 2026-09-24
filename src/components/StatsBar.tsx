@@ -7,7 +7,10 @@ export function StatsBar() {
 
   const stats = [
     { value: "500+", label: t(translations.stats.completedProjects) },
-    { value: t(translations.stats.expertise), label: t(translations.stats.multiDomain) },
+    {
+      value: t(translations.stats.expertise),
+      label: t(translations.stats.multiDomain),
+    },
     { value: t(translations.stats.support), label: "24/7" },
   ];
 
@@ -32,43 +35,52 @@ export function StatsBar() {
         >
           <div className="flex items-center divide-x divide-white/10 flex-1 w-full">
             {stats.map((s, idx) => (
-              <motion.div 
-                key={s.label} 
+              <motion.div
+                key={s.label}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * idx + 0.3, duration: 0.6, ease: "easeOut" }}
+                transition={{
+                  delay: 0.1 * idx + 0.3,
+                  duration: 0.6,
+                  ease: "easeOut",
+                }}
                 className="flex-1 px-4 sm:px-8 text-center md:text-left"
               >
                 <div className="font-display font-bold text-2xl sm:text-4xl text-white leading-none tracking-tight group-hover:text-cyan-400 transition-colors duration-500">
                   {s.value}
                 </div>
-                <div className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-muted-foreground/60 mt-3">{s.label}</div>
+                <div className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-muted-foreground/60 mt-3">
+                  {s.label}
+                </div>
               </motion.div>
             ))}
           </div>
-          <motion.a 
+          <motion.a
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.6, ease: "easeOut" }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="#contact" 
+            href="#contact"
             className="w-full md:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-sm font-black text-white btn-primary-gradient whitespace-nowrap shadow-xl shadow-purple-500/20"
           >
-            {t(translations.stats.launchProject)} <ArrowRight className="w-5 h-5" />
+            {t(translations.stats.launchProject)}{" "}
+            <ArrowRight className="w-5 h-5" />
           </motion.a>
         </motion.div>
 
         <div className="mt-16 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-muted-foreground/40 font-black uppercase tracking-[0.4em]">
           {keywords.map((w, i, arr) => (
-            <motion.span 
-              key={w} 
+            <motion.span
+              key={w}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 + (i * 0.1), duration: 0.5 }}
+              transition={{ delay: 0.8 + i * 0.1, duration: 0.5 }}
               className="flex items-center gap-4 sm:gap-8 group/item"
             >
-              <span className="group-hover/item:text-cyan-400 transition-colors duration-300">{w}</span>
+              <span className="group-hover/item:text-cyan-400 transition-colors duration-300">
+                {w}
+              </span>
               {i < arr.length - 1 && (
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-500/20 shadow-[0_0_10px_rgba(34,211,238,0.2)]" />
               )}

@@ -1,10 +1,22 @@
 import { motion } from "framer-motion";
-import { Code2, Palette, Clapperboard, TrendingUp, ArrowRight, type LucideIcon } from "lucide-react";
+import {
+  Code2,
+  Palette,
+  Clapperboard,
+  TrendingUp,
+  ArrowRight,
+  type LucideIcon,
+} from "lucide-react";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useLanguage, translations } from "../lib/LanguageContext";
 
-const servicesMeta: { icon: LucideIcon; href: string; emoji: string; cardIdx: number }[] = [
+const servicesMeta: {
+  icon: LucideIcon;
+  href: string;
+  emoji: string;
+  cardIdx: number;
+}[] = [
   {
     icon: Palette,
     href: "/services/graphic-design",
@@ -37,7 +49,14 @@ function ServiceCard({
   isHovered,
   setHoveredIndex,
 }: {
-  s: { icon: LucideIcon; href: string; emoji: string; title: string; subtitle: string; valueProposition: string };
+  s: {
+    icon: LucideIcon;
+    href: string;
+    emoji: string;
+    title: string;
+    subtitle: string;
+    valueProposition: string;
+  };
   i: number;
   isHovered: boolean;
   setHoveredIndex: (idx: number | null) => void;
@@ -45,7 +64,7 @@ function ServiceCard({
   const { t } = useLanguage();
 
   return (
-    <Link to={s.href as any}>
+    <Link to={s.href}>
       <motion.div
         onMouseEnter={() => setHoveredIndex(i)}
         onMouseLeave={() => setHoveredIndex(null)}
@@ -77,7 +96,9 @@ function ServiceCard({
           {/* Shine sweep effect */}
           <div
             className={`absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/8 to-transparent transition-all duration-700 ${
-              isHovered ? "translate-x-full opacity-100" : "-translate-x-full opacity-0"
+              isHovered
+                ? "translate-x-full opacity-100"
+                : "-translate-x-full opacity-0"
             }`}
           />
 
@@ -114,7 +135,9 @@ function ServiceCard({
             {/* Value proposition */}
             <p
               className={`text-sm leading-relaxed transition-all duration-400 ${
-                isHovered ? "text-muted-foreground/90" : "text-muted-foreground/55"
+                isHovered
+                  ? "text-muted-foreground/90"
+                  : "text-muted-foreground/55"
               }`}
             >
               {s.valueProposition}
@@ -132,7 +155,9 @@ function ServiceCard({
                 isHovered ? "text-purple-300" : "text-white/40"
               }`}
             >
-              <span className="text-xs font-bold uppercase tracking-wider">{t(translations.services.discoverService)}</span>
+              <span className="text-xs font-bold uppercase tracking-wider">
+                {t(translations.services.discoverService)}
+              </span>
               <ArrowRight
                 className={`w-4 h-4 transition-transform duration-400 ${
                   isHovered ? "translate-x-2" : ""
@@ -163,15 +188,25 @@ export function Services() {
   });
 
   return (
-    <section id="services" className="relative py-24 sm:py-32 overflow-hidden" style={{ contain: "layout style" }}>
+    <section
+      id="services"
+      className="relative py-24 sm:py-32 overflow-hidden"
+      style={{ contain: "layout style" }}
+    >
       {/* Background with depth */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Grid pattern */}
         <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(to_right,#80808020_1px,transparent_1px),linear-gradient(to_bottom,#80808020_1px,transparent_1px)] bg-[size:60px_60px]" />
 
         {/* Animated gradients */}
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/15 blur-[100px] rounded-full animate-pulse" style={{ animationDuration: "8s" }} />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-600/10 blur-[80px] rounded-full animate-pulse" style={{ animationDuration: "10s" }} />
+        <div
+          className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/15 blur-[100px] rounded-full animate-pulse"
+          style={{ animationDuration: "8s" }}
+        />
+        <div
+          className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-cyan-600/10 blur-[80px] rounded-full animate-pulse"
+          style={{ animationDuration: "10s" }}
+        />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 relative z-10">

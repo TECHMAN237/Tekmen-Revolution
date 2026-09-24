@@ -16,7 +16,8 @@ export const Route = createFileRoute("/testimonials")({
       { property: "og:title", content: "Témoignages — TEKMEN REVOLUTION" },
       {
         property: "og:description",
-        content: "Retours clients et avis sur nos services de design, web et vidéo.",
+        content:
+          "Retours clients et avis sur nos services de design, web et vidéo.",
       },
     ],
     links: [
@@ -55,7 +56,10 @@ function TestimonialsPage() {
             alt="TEKMEN REVOLUTION"
             className="h-10 w-auto opacity-70 hover:opacity-100 transition-opacity"
           />
-          <p>© {new Date().getFullYear()} TEKMEN REVOLUTION. {t(translations.footer.rights)}</p>
+          <p>
+            © {new Date().getFullYear()} TEKMEN REVOLUTION.{" "}
+            {t(translations.footer.rights)}
+          </p>
         </div>
       </footer>
     </main>

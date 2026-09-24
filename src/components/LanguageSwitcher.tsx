@@ -31,9 +31,7 @@ export function LanguageSwitcher() {
         <div className="relative z-10 flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase">
           <span
             className={`transition-all duration-300 ${
-              lang === "en"
-                ? "text-white"
-                : "text-white/40"
+              lang === "en" ? "text-white" : "text-white/40"
             }`}
           >
             EN
@@ -41,9 +39,7 @@ export function LanguageSwitcher() {
           <span className="text-white/20">/</span>
           <span
             className={`transition-all duration-300 ${
-              lang === "fr"
-                ? "text-white"
-                : "text-white/40"
+              lang === "fr" ? "text-white" : "text-white/40"
             }`}
           >
             FR

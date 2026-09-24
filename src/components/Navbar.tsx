@@ -40,17 +40,21 @@ export function Navbar() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-6 left-0 right-0 z-50 px-4 sm:px-6 flex justify-center pointer-events-none transition-all duration-500`}
     >
-      <div className={`w-full max-w-7xl transition-all duration-500 pointer-events-auto ${
-        scrolled ? `bg-black/70 backdrop-blur-md border border-white/10 shadow-lg py-2 px-2 ${open ? 'rounded-[2rem]' : 'rounded-full'}` : "bg-transparent py-2 px-0"
-      }`}>
+      <div
+        className={`w-full max-w-7xl transition-all duration-500 pointer-events-auto ${
+          scrolled
+            ? `bg-black/70 backdrop-blur-md border border-white/10 shadow-lg py-2 px-2 ${open ? "rounded-[2rem]" : "rounded-full"}`
+            : "bg-transparent py-2 px-0"
+        }`}
+      >
         <div className="flex items-center px-5 sm:px-6 py-3">
           {/* Logo Container (Left) */}
           <div className="flex-1 flex justify-start">
             <a href="#home" className="flex items-center group">
-              <img 
-                src={logoImg} 
-                alt="Tekmen Revolution Logo" 
-                className="h-8 sm:h-10 w-auto object-contain" 
+              <img
+                src={logoImg}
+                alt="Tekmen Revolution Logo"
+                className="h-8 sm:h-10 w-auto object-contain"
               />
             </a>
           </div>
