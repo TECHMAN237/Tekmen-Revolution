@@ -185,12 +185,6 @@ const ytVideos: VideoItem[] = [
     isShort: false,
   },
   {
-    id: "zjveOMAtYW8",
-    title: "Home Joy Déco",
-    url: "https://youtube.com/shorts/zjveOMAtYW8?feature=share",
-    isShort: true,
-  },
-  {
     id: "Q9rAgmzJi4o",
     title: "Défilé Miss",
     url: "https://youtube.com/shorts/Q9rAgmzJi4o?feature=share",
